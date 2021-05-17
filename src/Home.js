@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import Show from './Show'
-import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 // Date Field imports
 import 'date-fns';
@@ -12,35 +11,34 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 function Home() {
-  let query = {};
+  const history = useHistory();
 
   const [crypto, setCrypto] = useState('')
   const [amount, setAmount] = useState('')
   const [startDate, setDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [apiPrices, setApiPrices] = useState([])
+  const [dataArr, setDataArr] = useState([]);
 
-  const apiAxios = async (crypto, startDate, endDate) => {
-    const startDateUnix = new Date(startDate).getTime() / 1000;
-    const endDateUnix = new Date(endDate).getTime() / 1000;;    
 
-    try {
-      const res = await axios.get(
-        `https://api.coingecko.com/api/v3/coins/${crypto}/market_chart/range?vs_currency=usd&from=${startDateUnix}&to=${endDateUnix}`
-      )
-      console.log(res.data.prices)
-
-    } catch (error) {
-      console.log('error from apiAxios', error)
-    }    
-  }
-
+  const buildQuery = () => {
+    const frequencyNumeric = 30
+    const dateString = `?start=${startDate.format(
+      "YYYY-MM-DD"
+    )}&end=${endDate.format("YYYY-MM-DD")}`;
+    return `${dateString}&amount=${amount}&freq=${frequencyNumeric}&coinType=${crypto}`;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    apiAxios(crypto, startDate, endDate)
-    /* handleSubmit will call apiAxios
-    apiAxios will call the api, and update the state
-    */
+    
+    const query = buildQuery()
+
+    history.push({
+      pathname: '/show',
+      search:query
+    })
+    console.log(history)
   };
 
   const handleCrypto = e => {
@@ -115,9 +113,21 @@ function Home() {
         </Button>
       </form>
 
-      <Show 
-        query={query}
-      />
+      <div>
+        apiPrices: {apiPrices.length}
+      </div>
+
+      <div>
+        dataArr: {dataArr.length}
+      </div>
+
+      
+
+
+ 
+     
+
+ 
 
     </div>
   )
