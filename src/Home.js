@@ -23,20 +23,20 @@ function Home() {
 
   const buildQuery = () => {
     const frequencyNumeric = 30
-    const dateString = `?start=${startDate.format(
-      "YYYY-MM-DD"
-    )}&end=${endDate.format("YYYY-MM-DD")}`;
+    const startDateString = `${startDate.getFullYear()}-${startDate.getMonth()+1}-${startDate.getDate()}`;
+    const endDateString = `${endDate.getFullYear()}-${endDate.getMonth()+1}-${endDate.getDate()}`
+
+    const dateString = `?start=${startDateString}&end=${endDateString}`;
+
     return `${dateString}&amount=${amount}&freq=${frequencyNumeric}&coinType=${crypto}`;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     const query = buildQuery()
-
     history.push({
       pathname: '/show',
-      search:query
+      search: query
     })
     console.log(history)
   };
