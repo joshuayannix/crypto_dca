@@ -1,6 +1,7 @@
 import React, { useEffect} from 'react';
 import PurchaseInstance from './PurchaseInstance';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import queryString from "query-string";
 
 function Show( {} ) {
 
@@ -8,8 +9,13 @@ function Show( {} ) {
     console.log('get coindata!')
   }
 
+  let location = useLocation();
+
   useEffect(() => {
-    //const params = queryString.parse(props.location.search)
+    
+    const params = queryString.parse(location.search);
+    console.log(params)
+
     
   })
 
