@@ -1,8 +1,12 @@
+//Sub components and helper files
 import React, { useEffect, useState } from 'react';
 import PurchaseInstance from './PurchaseInstance';
+import { _validateAmount, _validateFrequency, _validateStartDate, _validateEndDate, _validateCoinType, _validateDatesOverlap } from './validations';
+
+// External libraries
 import { useHistory, useLocation } from 'react-router-dom';
 import queryString from "query-string";
-import { _validateAmount, _validateFrequency, _validateStartDate, _validateEndDate, _validateCoinType, _validateDatesOverlap } from './validations';
+import axios from 'axios';
 import dayjs from "dayjs";
 
 function Show() {
@@ -19,6 +23,7 @@ function Show() {
 
   useEffect(() => {
     const params = queryString.parse(location.search);    
+    console.log('useEffect')
     validateValues(params)
   }, [])
 
@@ -42,23 +47,34 @@ function Show() {
     
     setParams(params)
     //setLoading(true)
-    //getCoinData(start, end, coinType)
+    console.log('params updated in state: ',params)
+    getCoinData(start, end, coinType)
   }
 
-  const getCoinData = async(params) => {
-    const { amount, end, start, freq, coinType } = params;
+  const getCoinData = async(startDate, endDate, coinType) => {
+    const startDateUnix = dayjs(startDate).unix()
+    const endDateUnix = dayjs(endDate).unix()
 
-    const startDateUnix = new Date(start).getTime() / 1000;
-    const endDateUnix = new Date(end).getTime() / 1000;
+    console.log('startDate:', startDate)
+    console.log('startDateUnix: ',startDateUnix)
+
     const range = `range?vs_currency=usd&from=${startDateUnix}&to=${endDateUnix}`;
     const url = `https://api.coingecko.com/api/v3/coins/${coinType}/market_chart/${range}`;
+    console.log(url)
+    try {
+      const res = await axios.get(url)
+      console.log(res.data)
+    } catch(error) {
 
-    const coinResponse = await fetch(url)
-    if(coinResponse) {
-      const apiCoinData = await coinResponse.json();
-      setCoinData(apiCoinData)
-      //console.log('api successful: ', apiCoinData)
     }
+
+    // const coinResponse = await fetch(url)
+    // console.log(coinResponse)
+    // if(coinResponse) {
+    //   const apiCoinData = await coinResponse.json();
+    //   console.log('api successful: ', apiCoinData)
+    //   setCoinData(apiCoinData)
+    // }
   }
 
 

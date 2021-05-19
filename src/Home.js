@@ -35,7 +35,7 @@ function Home() {
       pathname: '/show',
       search: query
     })
-    console.log(history)
+    //console.log(history)
   };
 
   const handleCrypto = e => {
