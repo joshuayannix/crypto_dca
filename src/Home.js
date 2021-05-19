@@ -17,9 +17,6 @@ function Home() {
   const [amount, setAmount] = useState('')
   const [startDate, setDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [apiPrices, setApiPrices] = useState([])
-  const [dataArr, setDataArr] = useState([]);
-
 
   const buildQuery = () => {
     const frequencyNumeric = 30
@@ -112,23 +109,7 @@ function Home() {
         >submit
         </Button>
       </form>
-
-      <div>
-        apiPrices: {apiPrices.length}
-      </div>
-
-      <div>
-        dataArr: {dataArr.length}
-      </div>
-
       
-
-
- 
-     
-
- 
-
     </div>
   )
 }

@@ -1,28 +1,69 @@
-import React, { useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import PurchaseInstance from './PurchaseInstance';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import queryString from "query-string";
+import { _validateAmount, _validateFrequency, _validateStartDate, _validateEndDate, _validateCoinType, _validateDatesOverlap } from './validations';
+import dayjs from "dayjs";
 
-function Show( {} ) {
+function Show() {
 
-  const getCoinData = () => {
-    console.log('get coindata!')
-  }
-
+  // Router Hooks
   let location = useLocation();
+  let history = useHistory();
+
+  // State  
+  const [params, setParams] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false)
+  const [coinData, setCoinData] = useState([]);
 
   useEffect(() => {
-    
-    const params = queryString.parse(location.search);
-    console.log(params)
+    const params = queryString.parse(location.search);    
+    validateValues(params)
+  }, [])
 
+  const validateValues = (params) => {
+    const { amount, end, start, freq, coinType } = params;
+    let error = null;
+    let startDate = dayjs(start);      
+    let endDate = dayjs(end);
+
+    error = _validateAmount(amount) || error;
+    error = _validateFrequency(freq) || error;
+    error = _validateStartDate(startDate) || error;
+    error = _validateEndDate(endDate) || error;
+    //error = _validateCoinType(coinType) || error;
+    //error = _validateDatesOverlap(duration) || error;
+
+    if(error && error.length > 0) {
+      setError(error)
+      return;
+    }
     
-  })
+    setParams(params)
+    //setLoading(true)
+    //getCoinData(start, end, coinType)
+  }
+
+  const getCoinData = async(params) => {
+    const { amount, end, start, freq, coinType } = params;
+
+    const startDateUnix = new Date(start).getTime() / 1000;
+    const endDateUnix = new Date(end).getTime() / 1000;
+    const range = `range?vs_currency=usd&from=${startDateUnix}&to=${endDateUnix}`;
+    const url = `https://api.coingecko.com/api/v3/coins/${coinType}/market_chart/${range}`;
+
+    const coinResponse = await fetch(url)
+    if(coinResponse) {
+      const apiCoinData = await coinResponse.json();
+      setCoinData(apiCoinData)
+      //console.log('api successful: ', apiCoinData)
+    }
+  }
 
 
   // const apiAxios = async (crypto, startDate, endDate) => {
-  //   const startDateUnix = new Date(startDate).getTime() / 1000;
-  //   const endDateUnix = new Date(endDate).getTime() / 1000;;    
+
 
   // const startDateUnix = new Date(startDate).getTime() / 1000;
   //   const endDateUnix = new Date(endDate).getTime() / 1000;
