@@ -1,13 +1,13 @@
 import dayjs from "dayjs";
 const coindeskStart = "2010-07-17";
-const coinTypes = [
-  "Bitcoin",
-  "Ethereum",
-  "Ripple",
-  "Litecoin",
-  "Monero",
-  "Dogecoin"
-];
+// const coinTypes = [
+//   "Bitcoin",
+//   "Ethereum",
+//   "Ripple",
+//   "Litecoin",
+//   "Monero",
+//   "Dogecoin"
+// ];
 
 export const _validateAmount = (amount) => {
   let error = null;

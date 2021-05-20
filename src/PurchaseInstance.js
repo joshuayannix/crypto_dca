@@ -4,7 +4,7 @@ const PurchaseInstance = ({ dollarAmountInvested, coinAmount, coinValue, date })
 
   return (
     <div>
-      You bought crypto!
+      Individual Purchase Instance!
       {dollarAmountInvested}, {coinAmount}, {coinValue}, {date}
     </div>
   )

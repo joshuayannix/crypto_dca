@@ -9,7 +9,7 @@ function App() {
       <div>
       <Route exact path="/" component={props => <Home {...props} />} />
 
-      <Route path = '/'>
+      <Route path = '/show'>
         <Show />
       </Route>
 
