@@ -1,6 +1,6 @@
 //Sub components and helper files
 import React, { useEffect, useState } from 'react';
-import PurchaseInstance from './PurchaseInstance';
+//import PurchaseInstance from './PurchaseInstance';
 import { _validateAmount, _validateFrequency, _validateStartDate, _validateEndDate, } from './validations';
 
 // External libraries
@@ -94,7 +94,6 @@ function Show() {
   If we are receiving daily data (if time is above 90 days), then we should just loop through based on number of days.
   */
 
-  // Calculate the duration to decide how much to dice the data.
 
 
   const getDuration = (a, b) => {
@@ -105,61 +104,40 @@ function Show() {
   }
 
   let duration = getDuration(params.start, params.end)
-  console.log('josh!:', params.start, params.end)
   console.log('duriation!: ', duration)
 
   let hourlyAdjust = 1;
-  if(duration < 90) hourlyAdjust = 24 
+  if(duration < 90) hourlyAdjust = 24;
 
   for(let i=0; i<coinData.length; i+=30*hourlyAdjust) {
     dollarAmountInvested += Number(params.amount);
-    coinAmount += params.amount/coinData[i][1];
-
+    let coinsPurchased = params.amount/coinData[i][1];
+    coinAmount += coinsPurchased;
+    let fiat = params.amount
     filteredData.push({
+      fiat,
       dollarAmountInvested,
       coinAmount,
-      coinValue: coinData[i][1],
+      coinsPurchased,
+      purchasePrice: coinData[i][1],
       date: coinData[i][0]
     })
   }
 
-  // if(duration < 90) {
-  //   //then we are receiving hourly response. One month is 24 hrs * 30 days = 722 prices. coinData is much 
-  //   for(let i=0; i<coinData.length; i+=722) {
-  //     dollarAmountInvested += Number(params.amount);
-  //     coinAmount += params.amount/coinData[i][1];
-  
-  //     filteredData.push({
-  //       dollarAmountInvested,
-  //       coinAmount,
-  //       coinValue: coinData[i][1],
-  //       date: coinData[i][0]
-  //     })
-  //   }
-  // } else {
-  //   for(let i=0; i<coinData.length; i+=30*hourlyAdjust) {
-  //     dollarAmountInvested += Number(params.amount);
-  //     coinAmount += params.amount/coinData[i][1];
-  
-  //     filteredData.push({
-  //       dollarAmountInvested,
-  //       coinAmount,
-  //       coinValue: coinData[i][1],
-  //       date: coinData[i][0]
-  //     })
-  //   }
-  // }
-  
+
 
   console.log('filteredData: ',filteredData)
 
   const renderPurchase = (purchase, index) => {
     return (
       <tr key={index}>
+                <td>{new Date(purchase.date).toLocaleDateString('en-US')}</td>
+
+        <td>${purchase.fiat}</td>
         <td>${purchase.dollarAmountInvested}</td>
+        <td>${purchase.purchasePrice}</td>
+        <td>{purchase.coinsPurchased}</td>
         <td>{purchase.coinAmount}</td>
-        <td>{purchase.coinValue}</td>
-        <td>{new Date(purchase.date).toLocaleDateString('en-US')}</td>
       </tr>
     )
   }
@@ -175,10 +153,13 @@ function Show() {
         <ReactBootStrap.Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>dollarAmountInvested</th>
-              <th>coin Amount</th>
-              <th>coin value</th>
-              <th>purchase date</th>
+            <th>Purchase Date</th>
+
+              <th>dollars invested</th>
+              <th>Total dollars invested</th>
+              <th>Purchase Price</th>
+              <th>Coins Purchased on this date</th>
+              <th>Total Coins Accumulated</th>
             </tr>
             
           </thead>
@@ -193,7 +174,7 @@ function Show() {
           return (
             <PurchaseInstance 
               coinAmount={el.coinAmount}
-              coinValue={el.coinValue}
+              purchasePrice={el.purchasePrice}
               date={el.date}
               dollarAmountInvested={el.dollarAmountInvested}
             />
