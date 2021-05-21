@@ -59,12 +59,12 @@ function Show() {
 
     const range = `range?vs_currency=usd&from=${startDateUnix}&to=${endDateUnix}`;
     const url = `https://api.coingecko.com/api/v3/coins/${coinType}/market_chart/${range}`;
-    //console.log('url:',url)
+    console.log('url:',url)
     try {
       const response = await axios.get(url)
       setCoinData(response.data.prices)
       
-      //console.log('coinData after api call and setCoinData:', coinData);
+      console.log('coinData after api call and setCoinData:', coinData);
       //setLoading(true);
       initializeData()
     } catch(error) {
@@ -89,48 +89,105 @@ function Show() {
   let coinAmount = 0;
   let dollarAmountInvested = 0;
 
-  //One month is 24 hrs * 30 days = 722 prices
-  for(let i=0; i<coinData.length; i+=722) {
-      dollarAmountInvested += Number(params.amount);
-      coinAmount += params.amount/coinData[i][1];
+  /* If we are receiving hourly data from API (if time between dates is less than 90 days), then we need this for loop to cut the list of prices we get by 24 so we get closer to daily data
 
-      filteredData.push({
-        dollarAmountInvested,
-        coinAmount,
-        coinValue: coinData[i][1],
-        date: coinData[i][0]
-      })
+  If we are receiving daily data (if time is above 90 days), then we should just loop through based on number of days.
+  */
+
+  // Calculate the duration to decide how much to dice the data.
+
+
+  const getDuration = (a, b) => {
+    let dayjsA = dayjs(a)
+    let dayjsB = dayjs(b)
+    let difference = dayjsB.diff(dayjsA, 'days')
+    return difference
   }
+
+  let duration = getDuration(params.start, params.end)
+  console.log('josh!:', params.start, params.end)
+  console.log('duriation!: ', duration)
+
+  let hourlyAdjust = 1;
+  if(duration < 90) hourlyAdjust = 24 
+
+  for(let i=0; i<coinData.length; i+=30*hourlyAdjust) {
+    dollarAmountInvested += Number(params.amount);
+    coinAmount += params.amount/coinData[i][1];
+
+    filteredData.push({
+      dollarAmountInvested,
+      coinAmount,
+      coinValue: coinData[i][1],
+      date: coinData[i][0]
+    })
+  }
+
+  // if(duration < 90) {
+  //   //then we are receiving hourly response. One month is 24 hrs * 30 days = 722 prices. coinData is much 
+  //   for(let i=0; i<coinData.length; i+=722) {
+  //     dollarAmountInvested += Number(params.amount);
+  //     coinAmount += params.amount/coinData[i][1];
+  
+  //     filteredData.push({
+  //       dollarAmountInvested,
+  //       coinAmount,
+  //       coinValue: coinData[i][1],
+  //       date: coinData[i][0]
+  //     })
+  //   }
+  // } else {
+  //   for(let i=0; i<coinData.length; i+=30*hourlyAdjust) {
+  //     dollarAmountInvested += Number(params.amount);
+  //     coinAmount += params.amount/coinData[i][1];
+  
+  //     filteredData.push({
+  //       dollarAmountInvested,
+  //       coinAmount,
+  //       coinValue: coinData[i][1],
+  //       date: coinData[i][0]
+  //     })
+  //   }
+  // }
+  
+
+  console.log('filteredData: ',filteredData)
 
   const renderPurchase = (purchase, index) => {
     return (
       <tr key={index}>
-        <td>{purchase.dollarAmountInvested}</td>
+        <td>${purchase.dollarAmountInvested}</td>
         <td>{purchase.coinAmount}</td>
         <td>{purchase.coinValue}</td>
-        <td>{purchase.date}</td>
+        <td>{new Date(purchase.date).toLocaleDateString('en-US')}</td>
       </tr>
     )
   }
 
+  /*
+{new Date(purchase.date).toLocaleDateString('en-US')}
+  */
+
   return (
     <div>
-      <h2>Show component</h2>
       <div>
-        <h3>Table of Purchases</h3>
-        <ReactBootStrap.Table>
+        <h3>Table of Purchases: {params.coinType}</h3>
+        <ReactBootStrap.Table striped bordered hover responsive>
           <thead>
-            <th>dollarAmountInvested</th>
-            <th>coin Amount</th>
-            <th>coin value</th>
-            <th>purchase date</th>
+            <tr>
+              <th>dollarAmountInvested</th>
+              <th>coin Amount</th>
+              <th>coin value</th>
+              <th>purchase date</th>
+            </tr>
+            
           </thead>
           <tbody>
             {filteredData.map(renderPurchase)}
           </tbody>
         </ReactBootStrap.Table>
       </div>
-      <div>
+      {/* <div>
         <h3>PurchaseInstance components from filteredData</h3>
         {filteredData.map(el => {
           return (
@@ -143,7 +200,7 @@ function Show() {
           )
           
         })}
-      </div>
+      </div> */}
     </div>
   )
 }
