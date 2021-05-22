@@ -51,6 +51,7 @@ function Home() {
   );
 
   const buildQuery = () => {
+    
     const frequencyNumeric = freq;
     const startDateString = `${startDate.getFullYear()}-${(startDate.getMonth()+1).toString().padStart(2,0)}-${(startDate.getDate()).toString().padStart(2,0)}`;
     const endDateString = `${endDate.getFullYear()}-${(endDate.getMonth()+1).toString().padStart(2,0)}-${(endDate.getDate()).toString().padStart(2,0)}`;
@@ -62,6 +63,10 @@ function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(!selection) {
+      alert('Please Select a cryptocurrency and calculate again')
+      return
+    }
     const query = buildQuery()
     history.push({
       pathname: '/show',
