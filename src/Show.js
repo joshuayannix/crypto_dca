@@ -141,10 +141,18 @@ function Show() {
   let totalCoins = 0
   let totalDollarsInvested = 0
   let profit = 0
+  let lumpSumCoins = 0
+  let lumpSumValue = 0;
   if(filteredData.length > 0) {
     totalCoins = filteredData[filteredData.length-1].coinAmount
     totalDollarsInvested = filteredData[filteredData.length-1].dollarAmountInvested
     profit = ((priceToday*totalCoins) - totalDollarsInvested).toFixed(2);
+    lumpSumCoins = totalDollarsInvested/filteredData[0].purchasePrice
+    
+  }
+
+  if(lumpSumCoins > 0) {
+    lumpSumValue = lumpSumCoins * priceToday
   }
   console.log('totalcoins: ', totalCoins)
 
@@ -165,14 +173,13 @@ function Show() {
 
   return (
     <div>
-
       <h3>Your {params.coinType} Investment Summary</h3>
       <p>You invested ${totalDollarsInvested} and acquired {totalCoins.toFixed(2)} {params.coinType} over a {duration} day period, from {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over {filteredData.length} investments, at an average price of ${(averagePurchasePrice).toFixed(2)}</p>
       <p>Current price of  {params.coinType} as of today, {today.toLocaleDateString('en-US')}: ${(priceToday *1).toFixed(2)} </p>
       <p>Current value of your {params.coinType}: ${(priceToday * totalCoins).toFixed(2)}</p>
       <p>Profit: ${profit} </p>
       <p>ROI: {((profit/totalDollarsInvested)*100).toFixed(2)}%</p>
-      <p>However, if you had just invested the ${totalDollarsInvested} as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, you would have acquired XX total ethereum, which as of today is worth $XX</p>
+      <p>However, if you had just invested the ${totalDollarsInvested} as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, you would have acquired {lumpSumCoins.toFixed(2)} total {params.coinType}, which as of today would be worth ${lumpSumValue.toFixed(2)}</p>
 
       <div>
         <h3>Table of Purchases: {params.coinType}</h3>
