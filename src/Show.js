@@ -148,6 +148,16 @@ function Show() {
 
   return (
     <div>
+
+      <h3>Investment Summary for {params.coinType}</h3>
+      <p>date range:</p>
+      <p>total invested = 10000 (34 investments)</p>
+      <p>total {params.coinType} purchased</p>
+      <p>Current price of  {params.coinType} as of today, 5/26/2021</p>
+      <p>Current value of your {params.coinType}</p>
+      <p>Profit (current value of your bitcoin - total invested): $450. ROI: profit/current value of your bitcoin</p>
+      <p>Average {params.coinType} purchase price</p>
+
       <div>
         <h3>Table of Purchases: {params.coinType}</h3>
         <ReactBootStrap.Table striped bordered hover responsive>

@@ -9,12 +9,19 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 // MaterialUI inputs
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import InputLabel from '@material-ui/core/InputLabel';
+
 
 function Home() {
   const history = useHistory();
 
   const [crypto, setCrypto] = useState('')
   const [amount, setAmount] = useState('')
+  const [freq, setFreq] = useState('')
   const [startDate, setDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
@@ -45,6 +52,10 @@ function Home() {
   const handleAmount = e => {
     setAmount(e.target.value)
   }
+
+  const handleFreq = e => {
+    setFreq(e.target.value)
+  }
   
   return (
     <div>
@@ -65,9 +76,36 @@ function Home() {
         <TextField 
           required
           variant="filled"
-          label="Monthly Dollar Amount" 
+          label="Amount To Invest" 
           onChange={handleAmount}
           value={amount}
+        />
+        <br/>
+
+        <FormControl required >
+          <InputLabel id="demo-simple-select-required-label">Frequency</InputLabel>
+          <Select
+            labelId="demo-simple-select-required-label"
+            id="demo-simple-select-required"
+            value={freq}
+            onChange={handleFreq}
+          >
+            <MenuItem value="">
+              <em>Monthly</em>
+            </MenuItem>
+            <MenuItem value={10}>Monthly</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+          <FormHelperText>Required</FormHelperText>
+        </FormControl>
+
+        <TextField 
+          required
+          variant="filled"
+          label="Frequency" 
+          onChange={handleFreq}
+          value={freq}
         />
         <br/>
 
