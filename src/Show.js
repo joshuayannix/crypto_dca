@@ -22,9 +22,8 @@ function Show() {
   const [coinData, setCoinData] = useState([]);
 
   useEffect(() => {
-    const params = queryString.parse(location.search);    
-    //console.log('useEffect triggered from Show.js')
-
+    const params = queryString.parse(location.search);        
+    //console.log('params from Show.js: ', params);
     const validateValues = (params) => {
       const { amount, end, start, freq, coinType } = params;
       let error = null;
@@ -63,9 +62,7 @@ function Show() {
     try {
       const response = await axios.get(url)
       setCoinData(response.data.prices)
-      
       console.log('coinData after api call and setCoinData:', coinData);
-      //setLoading(true);
       initializeData()
     } catch(error) {
       console.log('Error from apiAxios', error)
@@ -89,12 +86,8 @@ function Show() {
   let coinAmount = 0;
   let dollarAmountInvested = 0;
 
-  /* If we are receiving hourly data from API (if time between dates is less than 90 days), then we need this for loop to cut the list of prices we get by 24 so we get closer to daily data
-
-  If we are receiving daily data (if time is above 90 days), then we should just loop through based on number of days.
+  /* If we are receiving hourly data from API (if time between dates is less than 90 days), then we need this for loop to cut the list of prices we get by 24 so we get closer to daily data. Need to calculate the duration to know whether we'll be receiving hourly or daily.
   */
-
-
 
   const getDuration = (a, b) => {
     let dayjsA = dayjs(a)
@@ -104,12 +97,10 @@ function Show() {
   }
 
   let duration = getDuration(params.start, params.end)
-  console.log('duriation!: ', duration)
-
   let hourlyAdjust = 1;
   if(duration < 90) hourlyAdjust = 24;
 
-  for(let i=0; i<coinData.length; i+=30*hourlyAdjust) {
+  for(let i=0; i<coinData.length; i+=params.freq*hourlyAdjust) {
     dollarAmountInvested += Number(params.amount);
     let coinsPurchased = params.amount/coinData[i][1];
     coinAmount += coinsPurchased;
@@ -123,6 +114,13 @@ function Show() {
       date: coinData[i][0]
     })
   }
+
+  let purchasePriceTotals = 0
+for(let i=0; i<filteredData.length; i++) {
+  purchasePriceTotals += filteredData[i].purchasePrice;
+}
+
+let averagePurchasePrice = purchasePriceTotals/filteredData.length
 
 
 
@@ -142,24 +140,21 @@ function Show() {
     )
   }
 
-  /*
-{new Date(purchase.date).toLocaleDateString('en-US')}
-  */
+  //let capitalCrypto = params.coinType.charAt(0).toUpperCase()+params.coinType.slice(1)
+  // f
+
 
   return (
     <div>
 
-      <h3>Investment Summary for {params.coinType}</h3>
-      <p>date range:</p>
-      <p>total invested = 10000 (34 investments)</p>
-      <p>total {params.coinType} purchased</p>
-      <p>Current price of  {params.coinType} as of today, 5/26/2021</p>
-      <p>Current value of your {params.coinType}</p>
+      <h3>Your {'PLACEHOLDER'} Investment Summary</h3>
+      <p>You invested ${'filteredData[filteredData.length-1].dollarAmountInvested'} and acquired {'filteredData[filteredData.length-1].coinAmount'} {'PLACEHOLDER'} over a {duration} day period, from {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over {filteredData.length} investments, at an average price of ${averagePurchasePrice}</p>
+      <p>Current price of  {'PLACEHOLDER'} as of today, 5/26/2021: </p>
+      <p>Current value of your {'PLACEHOLDER'}</p>
       <p>Profit (current value of your bitcoin - total invested): $450. ROI: profit/current value of your bitcoin</p>
-      <p>Average {params.coinType} purchase price</p>
 
       <div>
-        <h3>Table of Purchases: {params.coinType}</h3>
+        <h3>Table of Purchases: {'PLACEHOLDER'}</h3>
         <ReactBootStrap.Table striped bordered hover responsive>
           <thead>
             <tr>
@@ -178,20 +173,6 @@ function Show() {
           </tbody>
         </ReactBootStrap.Table>
       </div>
-      {/* <div>
-        <h3>PurchaseInstance components from filteredData</h3>
-        {filteredData.map(el => {
-          return (
-            <PurchaseInstance 
-              coinAmount={el.coinAmount}
-              purchasePrice={el.purchasePrice}
-              date={el.date}
-              dollarAmountInvested={el.dollarAmountInvested}
-            />
-          )
-          
-        })}
-      </div> */}
     </div>
   )
 }
