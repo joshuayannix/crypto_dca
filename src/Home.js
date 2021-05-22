@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import InputLabel from '@material-ui/core/InputLabel';
 
@@ -29,6 +28,8 @@ function Home() {
   const [freq, setFreq] = useState('')
   const [startDate, setDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+
+  const[selection, setSelection] = useState('')
 
   useEffect(() => {
     axios
@@ -57,7 +58,7 @@ function Home() {
 
     const dateString = `?start=${startDateString}&end=${endDateString}`;
 
-    return `${dateString}&amount=${amount}&freq=${frequencyNumeric}&coinType=${crypto}`;
+    return `${dateString}&amount=${amount}&freq=${frequencyNumeric}&coinType=${selection}`;
   };
 
   const handleSubmit = async (e) => {
@@ -81,13 +82,21 @@ function Home() {
   const handleFreq = e => {
     setFreq(e.target.value)
   }
+
+  const handleSelect = e => {
+    console.log("e: ",e)
+    let lowercase = e.charAt(0).toLowerCase()+e.slice(1)
+    console.log('lowercased e:', lowercase)
+    setSelection(lowercase)
+    console.log('selection in state: ',selection)
+  }
   
   return (
     <div>
       Select a cryptocurrency, start and end date, investment amount, and a frequency.
       <form onSubmit={handleSubmit}>    
         
-        <TextField 
+        {/* <TextField 
           required
           variant="filled"
           id="standard-basic" 
@@ -96,6 +105,8 @@ function Home() {
           value={crypto}
           
         />
+        <br/> */}
+        Your Selection: {selection}
         <br/>
 
         <TextField 
@@ -167,7 +178,7 @@ function Home() {
         >Calculate
         </Button>
       </form>
-      
+
       <div className='coin-search'>
         <h1 className='coin-text'>Search a currency</h1>
         <form>
@@ -175,22 +186,29 @@ function Home() {
             className='coin-input'
             type='text'
             onChange={handleChange}
-            placeholder='Search'
+            placeholder='Start typing here to filter on a cryptocurrency'
+            size='80'
           />
         </form>
       </div>
+
+
       {filteredCoins.map(coin => {
         return (
-          <Coin
-            key={coin.id}
-            name={coin.name}
-            price={coin.current_price}
-            symbol={coin.symbol}
-            marketcap={coin.total_volume}
-            volume={coin.market_cap}
-            image={coin.image}
-            priceChange={coin.price_change_percentage_24h}
-          />
+          <div>          
+            <Coin
+              handler={handleSelect}
+              key={coin.id}
+              name={coin.name}
+              price={coin.current_price}
+              symbol={coin.symbol}
+              marketcap={coin.total_volume}
+              volume={coin.market_cap}
+              image={coin.image}
+              priceChange={coin.price_change_percentage_24h}
+            />
+
+          </div>                    
         );
       })}
       

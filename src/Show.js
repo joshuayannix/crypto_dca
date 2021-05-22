@@ -147,14 +147,14 @@ let averagePurchasePrice = purchasePriceTotals/filteredData.length
   return (
     <div>
 
-      <h3>Your {'PLACEHOLDER'} Investment Summary</h3>
-      <p>You invested ${'filteredData[filteredData.length-1].dollarAmountInvested'} and acquired {'filteredData[filteredData.length-1].coinAmount'} {'PLACEHOLDER'} over a {duration} day period, from {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over {filteredData.length} investments, at an average price of ${averagePurchasePrice}</p>
-      <p>Current price of  {'PLACEHOLDER'} as of today, 5/26/2021: </p>
-      <p>Current value of your {'PLACEHOLDER'}</p>
-      <p>Profit (current value of your bitcoin - total invested): $450. ROI: profit/current value of your bitcoin</p>
+      <h3>Your {params.coinType} Investment Summary</h3>
+      <p>You invested ${'filteredData[filteredData.length-1].dollarAmountInvested'} and acquired {'filteredData[filteredData.length-1].coinAmount'} {params.coinType} over a {duration} day period, from {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over {filteredData.length} investments, at an average price of ${averagePurchasePrice}</p>
+      <p>Current price of  {params.coinType} as of today, date: $YYY </p>
+      <p>Current value of your {params.coinType}: $XXX</p>
+      <p>Profit (current value of your {params.coinType}- total invested): $XX. ROI: profit/current value of your bitcoin</p>
 
       <div>
-        <h3>Table of Purchases: {'PLACEHOLDER'}</h3>
+        <h3>Table of Purchases: {params.coinType}</h3>
         <ReactBootStrap.Table striped bordered hover responsive>
           <thead>
             <tr>
@@ -163,8 +163,8 @@ let averagePurchasePrice = purchasePriceTotals/filteredData.length
               <th>dollars invested</th>
               <th>Total dollars invested</th>
               <th>Purchase Price</th>
-              <th>Coins Purchased on this date</th>
-              <th>Total Coins Accumulated</th>
+              <th>{params.coinType} Purchased on this date</th>
+              <th>Total {params.coinType} Accumulated</th>
             </tr>
             
           </thead>

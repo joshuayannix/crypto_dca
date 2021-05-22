@@ -8,8 +8,14 @@ const Coin = ({
   marketcap,
   volume,
   image,
-  priceChange
+  priceChange,
+  handler
 }) => {
+
+  const sendToParent = () => {
+    handler(name)
+  }
+  
   return (
     <div className='coin-container'>
       <div className='coin-row'>
@@ -19,6 +25,7 @@ const Coin = ({
           <p className='coin-symbol'>{symbol}</p>
         </div>
         <div className='coin-data'>
+          <button onClick={sendToParent}>click me!</button>
           <p className='coin-price'>${price}</p>
           <p className='coin-volume'>${volume.toLocaleString()}</p>
 
