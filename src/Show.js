@@ -1,6 +1,5 @@
 //Sub components and helper files
 import React, { useEffect, useState } from 'react';
-//import PurchaseInstance from './PurchaseInstance';
 import { _validateAmount, _validateFrequency, _validateStartDate, _validateEndDate, } from './validations';
 
 // External libraries
@@ -11,7 +10,6 @@ import dayjs from "dayjs";
 import * as ReactBootStrap from 'react-bootstrap';
 
 function Show() {
-
   // Router Hooks
   let location = useLocation();
 
@@ -20,6 +18,10 @@ function Show() {
   const [loading, setLoading] = useState(false);
   //const [error, setError] = useState(false)
   const [coinData, setCoinData] = useState([]);
+  const [priceToday, setPriceToday] = useState('999');
+
+  let today = new Date()
+  let formattedToday = dayjs(today).format('DD-MM-YYYY');
 
   useEffect(() => {
     const params = queryString.parse(location.search);        
@@ -34,7 +36,6 @@ function Show() {
       error = _validateFrequency(freq) || error;
       error = _validateStartDate(startDate) || error;
       error = _validateEndDate(endDate) || error;
-      //error = _validateCoinType(coinType) || error;
       //error = _validateDatesOverlap(duration) || error;
   
       if(error && error.length > 0) {
@@ -53,17 +54,30 @@ function Show() {
   }, [])
 
   const getCoinData = async(startDate, endDate, coinType) => {
+
+    // Construct the url string for the prices between dates
     const startDateUnix = dayjs(startDate).unix()
     const endDateUnix = dayjs(endDate).unix()
-
     const range = `range?vs_currency=usd&from=${startDateUnix}&to=${endDateUnix}`;
     const url = `https://api.coingecko.com/api/v3/coins/${coinType}/market_chart/${range}`;
     console.log('url:',url)
+
+    // Construct the url string for the price as of Today
+    
+    const urlToday = `https://api.coingecko.com/api/v3/coins/${coinType}/history?date=${formattedToday}&localization=false`
+    console.log('urlToday: ', urlToday)
+
     try {
       const response = await axios.get(url)
       setCoinData(response.data.prices)
-      console.log('coinData after api call and setCoinData:', coinData);
-      initializeData()
+      console.log('made first api call from url')
+
+      const responseToday = await axios.get(urlToday)
+      let responsePriceToday = responseToday.data.market_data.current_price.usd
+      console.log('second api call compelted for todays price: ', responsePriceToday);
+      setPriceToday(responsePriceToday)
+
+      initializeData();
     } catch(error) {
       console.log('Error from apiAxios', error)
     }
@@ -116,42 +130,49 @@ function Show() {
   }
 
   let purchasePriceTotals = 0
-for(let i=0; i<filteredData.length; i++) {
-  purchasePriceTotals += filteredData[i].purchasePrice;
-}
+  for(let i=0; i<filteredData.length; i++) {
+    purchasePriceTotals += filteredData[i].purchasePrice;
+  }
+  let averagePurchasePrice = purchasePriceTotals/filteredData.length;
 
-let averagePurchasePrice = purchasePriceTotals/filteredData.length
+  console.log('filteredData: ', filteredData)
 
 
+  let totalCoins = 0
+  let totalDollarsInvested = 0
+  let profit = 0
+  if(filteredData.length > 0) {
+    totalCoins = filteredData[filteredData.length-1].coinAmount
+    totalDollarsInvested = filteredData[filteredData.length-1].dollarAmountInvested
+    profit = ((priceToday*totalCoins) - totalDollarsInvested).toFixed(2);
+  }
+  console.log('totalcoins: ', totalCoins)
 
-  console.log('filteredData: ',filteredData)
 
   const renderPurchase = (purchase, index) => {
     return (
       <tr key={index}>
-                <td>{new Date(purchase.date).toLocaleDateString('en-US')}</td>
-
+        <td>{new Date(purchase.date).toLocaleDateString('en-US')}</td>
         <td>${purchase.fiat}</td>
         <td>${purchase.dollarAmountInvested}</td>
-        <td>${purchase.purchasePrice}</td>
-        <td>{purchase.coinsPurchased}</td>
-        <td>{purchase.coinAmount}</td>
+        <td>${(purchase.purchasePrice).toFixed(2)}</td>
+        <td>{(purchase.coinsPurchased.toFixed(2))}</td>
+        <td>{(purchase.coinAmount).toFixed(2)}</td>
       </tr>
     )
   }
-
-  //let capitalCrypto = params.coinType.charAt(0).toUpperCase()+params.coinType.slice(1)
-  // f
 
 
   return (
     <div>
 
       <h3>Your {params.coinType} Investment Summary</h3>
-      <p>You invested ${'filteredData[filteredData.length-1].dollarAmountInvested'} and acquired {'filteredData[filteredData.length-1].coinAmount'} {params.coinType} over a {duration} day period, from {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over {filteredData.length} investments, at an average price of ${averagePurchasePrice}</p>
-      <p>Current price of  {params.coinType} as of today, date: $YYY </p>
-      <p>Current value of your {params.coinType}: $XXX</p>
-      <p>Profit (current value of your {params.coinType}- total invested): $XX. ROI: profit/current value of your bitcoin</p>
+      <p>You invested ${totalDollarsInvested} and acquired {totalCoins.toFixed(2)} {params.coinType} over a {duration} day period, from {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over {filteredData.length} investments, at an average price of ${(averagePurchasePrice).toFixed(2)}</p>
+      <p>Current price of  {params.coinType} as of today, {today.toLocaleDateString('en-US')}: ${(priceToday *1).toFixed(2)} </p>
+      <p>Current value of your {params.coinType}: ${(priceToday * totalCoins).toFixed(2)}</p>
+      <p>Profit: ${profit} </p>
+      <p>ROI: {((profit/totalDollarsInvested)*100).toFixed(2)}%</p>
+      <p>However, if you had just invested the ${totalDollarsInvested} as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, you would have acquired XX total ethereum, which as of today is worth $XX</p>
 
       <div>
         <h3>Table of Purchases: {params.coinType}</h3>

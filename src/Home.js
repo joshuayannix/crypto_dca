@@ -23,7 +23,6 @@ function Home() {
   const [search, setSearch] = useState('');
 
   // Form Inputs
-  const [crypto, setCrypto] = useState('')
   const [amount, setAmount] = useState('')
   const [freq, setFreq] = useState('')
   const [startDate, setDate] = useState(new Date());
@@ -58,7 +57,7 @@ function Home() {
 
     const dateString = `?start=${startDateString}&end=${endDateString}`;
 
-    return `${dateString}&amount=${amount}&freq=${frequencyNumeric}&coinType=${selection}`;
+    return `${dateString}&amount=${amount}&freq=${frequencyNumeric}&coinType=${selection[1]}`;
   };
 
   const handleSubmit = async (e) => {
@@ -71,10 +70,6 @@ function Home() {
     //console.log(history)
   };
 
-  const handleCrypto = e => {
-    setCrypto(e.target.value)
-  }
-
   const handleAmount = e => {
     setAmount(e.target.value)
   }
@@ -85,30 +80,17 @@ function Home() {
 
   const handleSelect = e => {
     console.log("e: ",e)
-    let lowercase = e.charAt(0).toLowerCase()+e.slice(1)
-    console.log('lowercased e:', lowercase)
-    setSelection(lowercase)
+
+    setSelection(e)
     console.log('selection in state: ',selection)
   }
+
   
   return (
     <div>
       Select a cryptocurrency, start and end date, investment amount, and a frequency.
       <form onSubmit={handleSubmit}>    
         
-        {/* <TextField 
-          required
-          variant="filled"
-          id="standard-basic" 
-          label="Cryptocurrency" 
-          onChange={handleCrypto}
-          value={crypto}
-          
-        />
-        <br/> */}
-        Your Selection: {selection}
-        <br/>
-
         <TextField 
           required
           variant="filled"
@@ -171,7 +153,8 @@ function Home() {
         </MuiPickersUtilsProvider>
         <br/>
 
-
+        <h2>Your Selection: {selection[0]}</h2>
+        <br/>
         <Button
           type='submit'
           color='secondary'
@@ -199,6 +182,7 @@ function Home() {
             <Coin
               handler={handleSelect}
               key={coin.id}
+              id={coin.id}
               name={coin.name}
               price={coin.current_price}
               symbol={coin.symbol}

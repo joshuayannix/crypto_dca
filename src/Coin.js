@@ -2,6 +2,7 @@ import React from 'react';
 import './Coin.css';
 
 const Coin = ({
+  id,
   name,
   price,
   symbol,
@@ -13,7 +14,7 @@ const Coin = ({
 }) => {
 
   const sendToParent = () => {
-    handler(name)
+    handler([name, id])
   }
   
   return (
@@ -25,7 +26,7 @@ const Coin = ({
           <p className='coin-symbol'>{symbol}</p>
         </div>
         <div className='coin-data'>
-          <button onClick={sendToParent}>click me!</button>
+          <button onClick={sendToParent}>Select</button>
           <p className='coin-price'>${price}</p>
           <p className='coin-volume'>${volume.toLocaleString()}</p>
 
