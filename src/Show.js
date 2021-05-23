@@ -8,6 +8,7 @@ import queryString from "query-string";
 import axios from 'axios';
 import dayjs from "dayjs";
 import * as ReactBootStrap from 'react-bootstrap';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 function Show() {
   // Router Hooks
@@ -143,6 +144,8 @@ function Show() {
   let profit = 0
   let lumpSumCoins = 0
   let lumpSumValue = 0;
+  let lumpSumProfit = 0;
+
   if(filteredData.length > 0) {
     totalCoins = filteredData[filteredData.length-1].coinAmount
     totalDollarsInvested = filteredData[filteredData.length-1].dollarAmountInvested
@@ -153,6 +156,7 @@ function Show() {
 
   if(lumpSumCoins > 0) {
     lumpSumValue = lumpSumCoins * priceToday
+    lumpSumProfit = (lumpSumValue - totalDollarsInvested).toFixed(2)
   }
   console.log('totalcoins: ', totalCoins)
 
@@ -179,28 +183,40 @@ function Show() {
       <p>Current value of your {params.coinType}: ${(priceToday * totalCoins).toFixed(2)}</p>
       <p>Profit: ${profit} </p>
       <p>ROI: {((profit/totalDollarsInvested)*100).toFixed(2)}%</p>
-      <p>However, if you had just invested the ${totalDollarsInvested} as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, you would have acquired {lumpSumCoins.toFixed(2)} total {params.coinType}, which as of today would be worth ${lumpSumValue.toFixed(2)}</p>
+      <p>However, if you had just invested the ${totalDollarsInvested} as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, you would have acquired {lumpSumCoins.toFixed(2)} total {params.coinType}, which as of today would be worth ${lumpSumValue.toFixed(2)}. Your profit would've been ${lumpSumProfit}. ROI would've been {((lumpSumProfit/totalDollarsInvested)*100).toFixed(2)}%</p>
 
-      <div>
-        <h3>Table of Purchases: {params.coinType}</h3>
-        <ReactBootStrap.Table striped bordered hover responsive>
-          <thead>
-            <tr>
-            <th>Purchase Date</th>
+      
+      <h3>Table of Purchases: {params.coinType}</h3>
+      <ReactHTMLTableToExcel
+        id="test-table-xls-button"
+        className="download-table-xls-button"
+        table="table-to-xls"
+        filename="crypto_DCA_purchases"
+        sheet="Sheet1"
+        buttonText="Download as XLS file"
+      />
+      
+      <ReactBootStrap.Table striped bordered hover responsive id="table-to-xls">
+        <thead>
+          <tr>
+          <th>Purchase Date</th>
 
-              <th>dollars invested</th>
-              <th>Total dollars invested</th>
-              <th>Purchase Price</th>
-              <th>{params.coinType} Purchased on this date</th>
-              <th>Total {params.coinType} Accumulated</th>
-            </tr>
-            
-          </thead>
-          <tbody>
-            {filteredData.map(renderPurchase)}
-          </tbody>
-        </ReactBootStrap.Table>
-      </div>
+            <th>dollars invested</th>
+            <th>Total dollars invested</th>
+            <th>Purchase Price</th>
+            <th>{params.coinType} Purchased on this date</th>
+            <th>Total {params.coinType} Accumulated</th>
+          </tr>
+          
+        </thead>
+        <tbody>
+          {filteredData.map(renderPurchase)}
+        </tbody>
+      </ReactBootStrap.Table>
+
+
+      
+
     </div>
   )
 }
