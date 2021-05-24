@@ -26,7 +26,7 @@ const Coin = ({
           <p className='coin-symbol'>{symbol}</p>
         </div>
         <div className='coin-data'>
-          <button onClick={sendToParent}>Select</button>
+          <button className='selectCoin'onClick={sendToParent}>Select</button>
           <p className='coin-price'>${price}</p>
           <p className='coin-volume'>${volume.toLocaleString()}</p>
 

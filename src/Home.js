@@ -4,6 +4,7 @@ import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import axios from 'axios'
 import Coin from './Coin';
+import './Home.css';
 
 // MaterialUI inputs
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
@@ -33,7 +34,7 @@ function Home() {
   useEffect(() => {
     axios
       .get(
-        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false'
+        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
       )
       .then(res => {
         setCoins(res.data);
@@ -93,82 +94,86 @@ function Home() {
   
   return (
     <div>
-      Select a cryptocurrency, start and end date, investment amount, and a frequency.
-      <form onSubmit={handleSubmit}>    
+      <div className='header'>
+        <h2>Cryptocurrency Dollar Cost Average Calculator</h2>
+        Select a cryptocurrency, start and end date, investment amount, and a frequency.
+      </div>
+      
+      <form onSubmit={handleSubmit} className='inputs'>    
         
-        <TextField 
-          required
-          variant="filled"
-          label="Amount To Invest" 
-          onChange={handleAmount}
-          value={amount}
-        />
-        <br/>
-
-        <FormControl required >
-          <InputLabel htmlFor="age-native-required">Frequency</InputLabel>
-          <Select
-            native
-            value={freq}
-            onChange={handleFreq}
-            name="age"
-            inputProps={{
-              id: 'age-native-required',
-            }}
-          >
-            <option aria-label="None" value="" />
-            <option value={30}>Monthly</option>
-            <option value={7}>Weekly</option>
-            <option value={1}>Daily</option>
-          </Select>
-          <FormHelperText>Required</FormHelperText>
-        </FormControl>
-
-
-        <br/>
-
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker 
-            margin="normal"
-            id="date-picker-dialog"
-            label="Start Date"
-            format="MM/dd/yyyy"
-            value={startDate}
-            onChange={setDate}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
+        <div className='amount_frequency'>
+          <TextField 
+            required
+            variant="filled"
+            label="Amount To Invest" 
+            onChange={handleAmount}
+            value={amount}
           />
-        </MuiPickersUtilsProvider>
-        <br />
 
+          <FormControl required >
+            <InputLabel htmlFor="age-native-required">Frequency</InputLabel>
+            <Select
+              native
+              value={freq}
+              onChange={handleFreq}
+              name="age"
+              inputProps={{
+                id: 'age-native-required',
+              }}
+            >
+              <option aria-label="None" value="" />
+              <option value={30}>Monthly</option>
+              <option value={7}>Weekly</option>
+              <option value={1}>Daily</option>
+            </Select>
+            <FormHelperText>Required</FormHelperText>
+          </FormControl>
 
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker 
-            margin="normal"
-            id="end-date-picker-dialog"
-            label="End date"
-            format="MM/dd/yyyy"
-            value={endDate}
-            onChange={setEndDate}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-          />
-        </MuiPickersUtilsProvider>
-        <br/>
+        </div>
+        
+        <div className='date_inputs'>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker 
+              margin="normal"
+              id="date-picker-dialog"
+              label="Start Date"
+              format="MM/dd/yyyy"
+              value={startDate}
+              onChange={setDate}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </MuiPickersUtilsProvider>
 
-        <h2>Your Selection: {selection[0]}</h2>
-        <br/>
-        <Button
-          type='submit'
-          color='secondary'
-        >Calculate
-        </Button>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker 
+              margin="normal"
+              id="end-date-picker-dialog"
+              label="End date"
+              format="MM/dd/yyyy"
+              value={endDate}
+              onChange={setEndDate}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </div>
+        
+        <div className='calculate'>
+          <h4>Your Selection: {selection[0]}</h4>
+          <Button type='submit'color='secondary'>
+            Calculate
+          </Button>
+        </div>           
+        
       </form>
 
-      <div className='coin-search'>
-        <h1 className='coin-text'>Search a currency</h1>
+      {/* Coin results */}
+
+      <div className='coinResults'>
+        <h2 className='coin-text'>Search a currency</h2>
         <form>
           <input
             className='coin-input'
@@ -178,28 +183,28 @@ function Home() {
             size='80'
           />
         </form>
+
+        {filteredCoins.map(coin => {
+          return (
+            <div>          
+              <Coin
+                handler={handleSelect}
+                key={coin.id}
+                id={coin.id}
+                name={coin.name}
+                price={coin.current_price}
+                symbol={coin.symbol}
+                marketcap={coin.total_volume}
+                volume={coin.market_cap}
+                image={coin.image}
+                priceChange={coin.price_change_percentage_24h}
+              />
+
+            </div>                    
+          );
+        })}
       </div>
-
-
-      {filteredCoins.map(coin => {
-        return (
-          <div>          
-            <Coin
-              handler={handleSelect}
-              key={coin.id}
-              id={coin.id}
-              name={coin.name}
-              price={coin.current_price}
-              symbol={coin.symbol}
-              marketcap={coin.total_volume}
-              volume={coin.market_cap}
-              image={coin.image}
-              priceChange={coin.price_change_percentage_24h}
-            />
-
-          </div>                    
-        );
-      })}
+      
       
     </div>
   )

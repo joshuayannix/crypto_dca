@@ -3,6 +3,11 @@
   justify-content: center;
 }
 
+.selectCoin {
+  color: red;
+  
+}
+
 .coin-row {
   display: flex;
   flex-direction: row;
