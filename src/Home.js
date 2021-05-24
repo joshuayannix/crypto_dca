@@ -93,7 +93,7 @@ function Home() {
 
   
   return (
-    <div>
+    <div className='home'>
       <div className='header'>
         <h2>Cryptocurrency Dollar Cost Average Calculator</h2>
         Select a cryptocurrency, start and end date, investment amount, and a frequency.

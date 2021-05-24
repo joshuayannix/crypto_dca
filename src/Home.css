@@ -1,3 +1,12 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  padding: 10px;
+}
+
 .header {
   display: flex;
   flex-direction: column;
@@ -15,6 +24,7 @@
   margin: 10px;
   padding: 10px;
   border: 5px solid green;
+  width: 90%;
 }
 
 .amount_frequency {
@@ -23,7 +33,7 @@
   justify-content: center;
   margin: 10px;
   border: 5px  solid red;
-
+  width: 30%;
 }
 
 .date_inputs {
@@ -32,6 +42,16 @@
   justify-content: center;
   margin: 10px;
   border: 5px  solid red;
+  width: 30%;
+}
+.calculate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  border: 5px  solid red;
+  width: 30%;
 }
 
 .coinResults {
@@ -43,11 +63,3 @@
   border: 5px  solid red;
 }
 
-.calculate {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 10px;
-  border: 5px  solid red;
-}

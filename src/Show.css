@@ -1,0 +1,30 @@
+.header {
+  border: 2px solid green;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  margin: 10px;
+}
+
+.all_results {
+  display: flex;
+};
+
+.actual {
+  border: 2px solid red;
+
+  display: flex;
+}
+
+.lump_sum {
+  display: flex;
+}
+
+.table_title {
+  border: 2px solid green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin: 10px;
+}

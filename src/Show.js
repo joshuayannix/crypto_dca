@@ -1,6 +1,7 @@
 //Sub components and helper files
 import React, { useEffect, useState } from 'react';
 import { _validateAmount, _validateFrequency, _validateStartDate, _validateEndDate, } from './validations';
+import './Show.css';
 
 // External libraries
 import { useLocation } from 'react-router-dom';
@@ -177,48 +178,60 @@ function Show() {
 
   return (
     <div>
-      <h3>Your {params.coinType} Investment Summary</h3>
-      <p>You invested ${totalDollarsInvested} and acquired {totalCoins.toFixed(2)} {params.coinType} over a {duration} day period, from {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over {filteredData.length} investments, at an average price of ${(averagePurchasePrice).toFixed(2)}</p>
-      <p>Current price of  {params.coinType} as of today, {today.toLocaleDateString('en-US')}: ${(priceToday *1).toFixed(2)} </p>
-      <p>Current value of your {params.coinType}: ${(priceToday * totalCoins).toFixed(2)}</p>
-      <p>Profit: ${profit} </p>
-      <p>ROI: {((profit/totalDollarsInvested)*100).toFixed(2)}%</p>
-      <p>However, if you had just invested the ${totalDollarsInvested} as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, you would have acquired {lumpSumCoins.toFixed(2)} total {params.coinType}, which as of today would be worth ${lumpSumValue.toFixed(2)}. Your profit would've been ${lumpSumProfit}. ROI would've been {((lumpSumProfit/totalDollarsInvested)*100).toFixed(2)}%</p>
+      <div className='header'>
+        <button>Back to Home</button>
+        <h3>Your {params.coinType} Investment Summary</h3>
+      </div>
 
-      
-      <h3>Table of Purchases: {params.coinType}</h3>
-      <ReactHTMLTableToExcel
-        id="test-table-xls-button"
-        className="download-table-xls-button"
-        table="table-to-xls"
-        filename="crypto_DCA_purchases"
-        sheet="Sheet1"
-        buttonText="Download as XLS file"
-      />
-      
+      <section className='all_results'>
+
+        <div className='actual'>
+          <p>You invested ${totalDollarsInvested} and acquired {totalCoins.toFixed(2)} {params.coinType} over a {duration} day period, from {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over {filteredData.length} investments, at an average price of ${(averagePurchasePrice).toFixed(2)}</p>
+          <p>Current price of  {params.coinType} as of today, {today.toLocaleDateString('en-US')}: ${(priceToday *1).toFixed(2)} </p>
+          <p>Current value of your {params.coinType}: ${(priceToday * totalCoins).toFixed(2)}</p>
+          <p>Profit: ${profit} </p>
+          <p>ROI: {((profit/totalDollarsInvested)*100).toFixed(2)}%</p>
+        </div>
+
+        <div className='lump_sum'>
+          <p>
+            However, if you had just invested the ${totalDollarsInvested} as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, you would have acquired {lumpSumCoins.toFixed(2)} total {params.coinType}, which as of today would be worth ${lumpSumValue.toFixed(2)}. Your profit would've been ${lumpSumProfit}. ROI would've been {((lumpSumProfit/totalDollarsInvested)*100).toFixed(2)}%
+          </p>
+        </div>
+
+      </section>
+
+      <div className='table_title'>
+        <h3>Table of Purchases: {params.coinType}</h3>
+        <ReactHTMLTableToExcel
+          id="test-table-xls-button"
+          className="download-table-xls-button"
+          table="table-to-xls"
+          filename="crypto_DCA_purchases"
+          sheet="Sheet1"
+          buttonText="Download as XLS file"
+        />
+      </div>
+            
       <ReactBootStrap.Table striped bordered hover responsive id="table-to-xls">
         <thead>
           <tr>
-          <th>Purchase Date</th>
-
+            <th>Purchase Date</th>
             <th>dollars invested</th>
             <th>Total dollars invested</th>
             <th>Purchase Price</th>
             <th>{params.coinType} Purchased on this date</th>
             <th>Total {params.coinType} Accumulated</th>
-          </tr>
-          
+          </tr>    
         </thead>
+
         <tbody>
           {filteredData.map(renderPurchase)}
         </tbody>
       </ReactBootStrap.Table>
-
-
-      
-
+  
     </div>
   )
 }
 
-export default Show
+export default Show;
