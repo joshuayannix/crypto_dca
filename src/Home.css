@@ -14,14 +14,21 @@
   align-items: center;
   justify-content: center;
   margin: 10px;
-  padding: 50px;
-  /* border: 5px solid red; */
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
   border: 1px solid rgb(236, 239, 241);
   background-color: rgb(255, 255, 255);
   border-radius: 4px;
   box-shadow: rgb(17 51 83 / 2%) 0px 4px 12px 0px;
   width: 95%;
-  
+}
+
+.instructions {
+  font-weight: 400;
+  color: rgba(17, 51, 83, 0.6);
+  margin-left: 40px;
 }
 
 .inputs {
@@ -43,6 +50,7 @@
   justify-content: center;
   margin: 10px;
   width: 30%;
+  max-width: 250px;
 }
 
 .date_inputs {
@@ -51,7 +59,9 @@
   justify-content: center;
   margin: 10px;
   width: 30%;
+  max-width: 250px;
 }
+
 .calculate_section {
   display: flex;
   flex-direction: column;
@@ -59,11 +69,36 @@
   justify-content: center;
   margin: 10px;
   width: 30%;
-};
+  max-width: 250px;
+}
+
+
+.your_selection {
+  display: flex;
+  width: 100%;
+  height: 100px;
+  flex-direction: row;  
+}
 
 .calculate_title {
-  color: red;
-  border: 4px solid purple;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  width: 50%;
+  font-weight: 600;
+  font-size: 16px;  
+}
+
+.coin_selection {
+  width: 50%;
+  height: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .calculate_button {
@@ -82,6 +117,7 @@
   border-color: rgb(10, 70, 228);
 }
 
+
 .search_bar {
   background-color: rgb(255, 255, 255);
   width: 100%;
@@ -92,13 +128,15 @@
   box-shadow: rgb(17 51 83 / 2%) 0px 4px 12px 0px;
   background: rgb(255, 255, 255);
 }
+
 .coin_results {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: rgb(255, 255, 255);
-  width: 95%;
   margin: 10px;
+  width: 95%;
+  padding-top: 10px;
 }
 

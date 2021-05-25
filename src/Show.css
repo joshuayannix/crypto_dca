@@ -1,8 +1,8 @@
 .header {
   display: flex;
   flex-direction: row;
-  padding: 10px;
-  margin: 10px;
+  padding: 20px;
+  
 }
 
 .back_button {
@@ -13,6 +13,7 @@
   transition: all 80ms ease-in-out 0s;
   height: 40px;
   width: 140px;
+  min-width: 140px;
   padding: 5px;
   font-size: 14px;
   font-weight: bold;
@@ -33,7 +34,7 @@
   margin: 10px;
   font-weight: 400;
   color: rgba(17, 51, 83, 0.6);
-};
+}
 
 .total_results {
   display: flex;
@@ -89,7 +90,8 @@
   border-radius: 4px;
   transition: all 80ms ease-in-out 0s;
   height: 50px;
-  width: 130px;
+  width: 120px;
+  min-width: 120px;
   padding: 5px;
   font-size: 14px;
   font-weight: bold;

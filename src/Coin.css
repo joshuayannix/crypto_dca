@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   background-color: rgb(255,255,255);
-  /* border: 2px solid red; */
+  width: 100%
 }
 
 .coin-container:hover {
@@ -43,7 +43,7 @@
 }
 
 .coin h1 {
-  font-size: 16px;
+  font-size: 14px;
   width: 150px;
 }
 
@@ -67,18 +67,17 @@
 
 .coin-price {
   width: 110px;
+  font-size: 14px;
 }
 
 .coin-volume {
   width: 155px;
-}
-
-.coin-marketcap {
-  width: 230px;
+  font-size: 14px;
 }
 
 .coin-percent {
   width: 100px;
+  font-size: 14px;
 }
 
 .red {
@@ -88,3 +87,10 @@
 .green {
   color: #11d811;
 }
+
+.coin-marketcap {
+  width: 230px;
+  margin-right: 10px;
+  font-size: 14px;
+}
+

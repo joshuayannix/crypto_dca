@@ -93,9 +93,12 @@ function Home() {
   
   return (
     <div className='home'>
+
       <div className='home_title'>
         <h2>Cryptocurrency Dollar Cost Average Calculator</h2>
-        Select a cryptocurrency, start and end date, investment amount, and a frequency.
+        <p className='instructions'>
+          Select a cryptocurrency, start and end date, investment amount, and a frequency.
+        </p>
       </div>
       
       <form onSubmit={handleSubmit} className='inputs'>    
@@ -164,10 +167,21 @@ function Home() {
         </div>
         
         <div className='calculate_section'>
-          <h4 className='calculate_title'>Your Selection: {selection[0]}</h4>
+
+          <div className='your_selection'>
+            <div className='calculate_title'>
+              Your Selection:
+            </div>
+            <div className='coin_selection'>
+              {selection[0]}
+            </div>
+          </div>
+          
+
           <button type='submit' className='calculate_button'>
             Calculate
           </button>
+
         </div>           
         
       </form>
@@ -175,7 +189,7 @@ function Home() {
       {/* Coin results */}
 
       <div className='coin_results'>
-        <h2 className='coin-text'>Select a cryptocurrency</h2>
+        <h4 className='coin-text'>Select a cryptocurrency</h4>
         <form>
           <input
             className='search_bar'

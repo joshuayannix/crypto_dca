@@ -231,7 +231,8 @@ function Show() {
           filename="crypto_DCA_purchases"
           sheet="Sheet1"
           buttonText="Download as XLS file"
-        />
+          
+        />        
       </div>
       
       <div className='table_results'>
