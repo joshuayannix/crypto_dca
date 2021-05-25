@@ -11,6 +11,7 @@ import axios from 'axios';
 import dayjs from "dayjs";
 import * as ReactBootStrap from 'react-bootstrap';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 function Show() {
   // Router Hooks
@@ -185,9 +186,15 @@ function Show() {
 
 
   return (
-    <div>
+    <div className='show_js'>
+      <section className='above_table'>
+
+      
       <div className='header'>
-        <button onClick={backHome}>Back to Home</button>
+        <button className='back_button' onClick={backHome}>
+          <ArrowBackIosIcon/>
+          Back to Home
+        </button>
         <h3>Your {params.coinType} Investment Summary</h3>
       </div>
 
@@ -210,6 +217,10 @@ function Show() {
           </p>
         </div>
       </div>
+
+
+
+      </section>
 
       <div className='table_title'>
         <h3>Table of Purchases: {params.coinType}</h3>

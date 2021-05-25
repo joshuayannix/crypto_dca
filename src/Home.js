@@ -8,7 +8,6 @@ import './Home.css';
 
 // MaterialUI inputs
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -94,7 +93,7 @@ function Home() {
   
   return (
     <div className='home'>
-      <div className='header'>
+      <div className='home_title'>
         <h2>Cryptocurrency Dollar Cost Average Calculator</h2>
         Select a cryptocurrency, start and end date, investment amount, and a frequency.
       </div>
@@ -103,15 +102,18 @@ function Home() {
         
         <div className='amount_frequency'>
           <TextField 
-            required
-            variant="filled"
+            required            
             label="Amount To Invest" 
             onChange={handleAmount}
             value={amount}
           />
 
           <FormControl required >
-            <InputLabel htmlFor="age-native-required">Frequency</InputLabel>
+            <InputLabel
+              htmlFor="age-native-required"
+            >
+              Frequency
+            </InputLabel>
             <Select
               native
               value={freq}
@@ -161,22 +163,22 @@ function Home() {
           </MuiPickersUtilsProvider>
         </div>
         
-        <div className='calculate'>
-          <h4>Your Selection: {selection[0]}</h4>
-          <Button type='submit'color='secondary'>
+        <div className='calculate_section'>
+          <h4 className='calculate_title'>Your Selection: {selection[0]}</h4>
+          <button type='submit' className='calculate_button'>
             Calculate
-          </Button>
+          </button>
         </div>           
         
       </form>
 
       {/* Coin results */}
 
-      <div className='coinResults'>
-        <h2 className='coin-text'>Search a currency</h2>
+      <div className='coin_results'>
+        <h2 className='coin-text'>Select a cryptocurrency</h2>
         <form>
           <input
-            className='coin-input'
+            className='search_bar'
             type='text'
             onChange={handleChange}
             placeholder='Start typing here to filter on a cryptocurrency'
