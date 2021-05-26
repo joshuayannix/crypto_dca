@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { _validateAmount, _validateFrequency, _validateStartDate, _validateEndDate, } from './validations';
 import './Show.css';
+import blank from './blank.gif'
 
 // External libraries
 import { useHistory } from "react-router-dom";
@@ -20,6 +21,7 @@ function Show() {
   // State  
   const [params, setParams] = useState({});
   const [loading, setLoading] = useState(false);
+  const [apiCoin, setApiCoin] = useState()
   //const [error, setError] = useState(false)
   const [coinData, setCoinData] = useState([]);
   const [priceToday, setPriceToday] = useState('999');
@@ -67,7 +69,6 @@ function Show() {
     console.log('url:',url)
 
     // Construct the url string for the price as of Today
-    
     const urlToday = `https://api.coingecko.com/api/v3/coins/${coinType}/history?date=${formattedToday}&localization=false`
     console.log('urlToday: ', urlToday)
 
@@ -77,9 +78,12 @@ function Show() {
       console.log('made first api call from url')
 
       const responseToday = await axios.get(urlToday)
+      console.log('responseToday: ', responseToday)
       let responsePriceToday = responseToday.data.market_data.current_price.usd
-      console.log('second api call compelted for todays price: ', responsePriceToday);
+      console.log('second api call completed for todays price: ', responsePriceToday);
       setPriceToday(responsePriceToday)
+
+      setApiCoin(responseToday.data)
 
       initializeData();
     } catch(error) {
@@ -145,10 +149,6 @@ function Show() {
     purchasePriceTotals += filteredData[i].purchasePrice;
   }
   let averagePurchasePrice = purchasePriceTotals/filteredData.length;
-
-  console.log('filteredData: ', filteredData)
-
-
   let totalCoins = 0
   let totalDollarsInvested = 0
   let profit = 0
@@ -168,8 +168,8 @@ function Show() {
     lumpSumValue = lumpSumCoins * priceToday
     lumpSumProfit = (lumpSumValue - totalDollarsInvested).toFixed(2)
   }
-  console.log('totalcoins: ', totalCoins)
 
+  //console.log('testing josh: ', apiCoin.image, apiCoin.name);
 
   const renderPurchase = (purchase, index) => {
     return (
@@ -178,7 +178,7 @@ function Show() {
         <td>${purchase.fiat}</td>
         <td>${purchase.dollarAmountInvested}</td>
         <td>${(purchase.purchasePrice).toFixed(2)}</td>
-        <td>{(purchase.coinsPurchased.toFixed(2))}</td>
+        <td>{(purchase.coinsPurchased.toFixed(4))}</td>
         <td>{(purchase.coinAmount).toFixed(2)}</td>
       </tr>
     )
@@ -195,16 +195,17 @@ function Show() {
           <ArrowBackIosIcon/>
           Back to Home
         </button>
-        <h3>Your {params.coinType} Investment Summary</h3>
+        <h3>Your {apiCoin ? apiCoin.name : ''} Investment Summary</h3>
+        <img className ='coin_image' src={apiCoin ? apiCoin.image.small : blank}/>
       </div>
 
       <div className='all_results'>
         <div className='lump_sum'>
           <p>
-            You invested ${totalDollarsInvested} and acquired {totalCoins.toFixed(2)} {params.coinType} over a {duration} day period, from {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over {filteredData.length} investments, at an average price of ${(averagePurchasePrice).toFixed(2)}
+            You invested ${totalDollarsInvested} and acquired {totalCoins.toFixed(2)} {apiCoin ? apiCoin.name : ''} over a {duration} day period, from {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over {filteredData.length} investments, at an average price of ${(averagePurchasePrice).toFixed(2)}
           </p>
           <p>
-            Current price of  {params.coinType} as of today, {today.toLocaleDateString('en-US')}: ${(priceToday *1).toFixed(2)} Current value of your {params.coinType}: ${(priceToday * totalCoins).toFixed(2)}
+            Current price of {apiCoin ? apiCoin.name : ''} as of today, {today.toLocaleDateString('en-US')}: ${(priceToday *1).toFixed(2)} Current value of your {apiCoin ? apiCoin.name : ''}: ${(priceToday * totalCoins).toFixed(2)}
           </p>
           <p>
             Profit: ${profit} ROI: {((profit/totalDollarsInvested)*100).toFixed(2)}%
@@ -213,7 +214,7 @@ function Show() {
 
         <div className='lump_sum1'>
           <p>
-            However, if you had just invested the ${totalDollarsInvested} as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, you would have acquired {lumpSumCoins.toFixed(2)} total {params.coinType}, which as of today would be worth ${lumpSumValue.toFixed(2)}. Your profit would've been ${lumpSumProfit}. ROI would've been {((lumpSumProfit/totalDollarsInvested)*100).toFixed(2)}%
+            However, if you had just invested the ${totalDollarsInvested} as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, you would have acquired {lumpSumCoins.toFixed(2)} total {apiCoin ? apiCoin.name : ''}, which as of today would be worth ${lumpSumValue.toFixed(2)}. Your profit would've been ${lumpSumProfit}. ROI would've been {((lumpSumProfit/totalDollarsInvested)*100).toFixed(2)}%
           </p>
         </div>
       </div>
@@ -223,7 +224,7 @@ function Show() {
       </section>
 
       <div className='table_title'>
-        <h3>Table of Purchases: {params.coinType}</h3>
+        <h3>Table of Purchases: {apiCoin ? apiCoin.name : ''}</h3>
         <ReactHTMLTableToExcel
           id="test-table-xls-button"
           className="download-table-xls-button"
@@ -241,11 +242,11 @@ function Show() {
           <thead>
             <tr>
               <th>Purchase Date</th>
-              <th>dollars invested</th>
-              <th>Total dollars invested</th>
+              <th>Dollars Invested</th>
+              <th>Total Dollars Invested</th>
               <th>Purchase Price</th>
-              <th>{params.coinType} Purchased on this date</th>
-              <th>Total {params.coinType} Accumulated</th>
+              <th>Amount of {apiCoin ? apiCoin.name : ''} purchased on this date</th>
+              <th>Total {apiCoin ? apiCoin.name : ''} Accumulated</th>
             </tr>    
           </thead>
 

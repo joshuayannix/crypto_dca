@@ -102,3 +102,7 @@
   background-color: rgb(10, 70, 228);
   border-color: rgb(10, 70, 228);
 }
+
+.coin_image {
+  margin-left: 10px;
+}

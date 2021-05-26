@@ -180,7 +180,6 @@ function Home() {
             </div>
           </div>
           
-
           <button type='submit' className='calculate_button'>
             Calculate
           </button>
