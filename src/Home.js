@@ -5,6 +5,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import axios from 'axios'
 import Coin from './Coin';
 import './Home.css';
+import blank from './blank.gif'
 
 // MaterialUI inputs
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
@@ -173,7 +174,9 @@ function Home() {
               Your Selection:
             </div>
             <div className='coin_selection'>
+              <img className='coin_img' src={selection[2] ? selection[2] : blank}/>
               {selection[0]}
+
             </div>
           </div>
           

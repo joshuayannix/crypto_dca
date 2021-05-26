@@ -14,7 +14,7 @@ const Coin = ({
 }) => {
 
   const sendToParent = () => {
-    handler([name, id])
+    handler([name, id, image])
   }
   
   return (
