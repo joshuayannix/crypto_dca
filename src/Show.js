@@ -31,7 +31,8 @@ function Show() {
 
   useEffect(() => {
     const params = queryString.parse(location.search);        
-    //console.log('params from Show.js: ', params);
+    console.log('location from Show.js: ', location);
+    console.log('params: ', params)
     const validateValues = (params) => {
       const { amount, end, start, freq, coinType } = params;
       let error = null;
@@ -95,7 +96,6 @@ function Show() {
     // set other states
     //console.log('newData:',newData)
     setLoading(false)
-    
   }
        
   if(loading) {

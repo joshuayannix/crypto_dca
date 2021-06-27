@@ -69,9 +69,11 @@ function Home() {
       return
     }
     const query = buildQuery()
+    const query2 = buildQuery()
     history.push({
       pathname: '/show',
-      search: query
+      search: query,
+      search2: query2
     })
     //console.log(history)
   };
@@ -98,7 +100,7 @@ function Home() {
       <div className='home_title'>
         <h2>Cryptocurrency Dollar Cost Average Calculator</h2>
         <p className='instructions'>
-          Select a cryptocurrency, start and end date, investment amount, and a frequency.
+          Select a cryptocurrency, start and end date, investment amount, and a frequency. Powered by CoinGecko API.
         </p>
       </div>
       
