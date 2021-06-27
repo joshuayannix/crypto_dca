@@ -214,10 +214,19 @@ function Home() {
                 name={coin.name}
                 price={coin.current_price}
                 symbol={coin.symbol}
-                marketcap={coin.total_volume}
-                volume={coin.market_cap}
+                volume={coin.total_volume}
+                marketcap={coin.market_cap}
                 image={coin.image}
                 priceChange={coin.price_change_percentage_24h}
+                ath={coin.ath}
+                ath_change_percentage={coin.ath_change_percentage}
+                ath_date={coin.ath_date}
+                high_24h={coin.high_24h}
+                low_24h={coin.low_24h}
+                max_supply={coin.max_supply}
+                price_change_24h={coin.price_change_24h}
+                market_cap_rank={coin.market_cap_rank}
+                circulating_supply={coin.circulating_supply}
               />
 
             </div>                    
