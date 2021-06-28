@@ -29,6 +29,12 @@ function Show() {
   let today = new Date()
   let formattedToday = dayjs(today).format('DD-MM-YYYY');
 
+  //Tabs
+  const [toggleState, setToggleState] = useState(1);
+  const toggleTab = (index) => {
+    setToggleState(index);
+  };
+
   useEffect(() => {
     const params = queryString.parse(location.search);        
     console.log('location from Show.js: ', location);
@@ -195,28 +201,64 @@ function Show() {
           <ArrowBackIosIcon/>
           Back to Home
         </button>
-        <h3>Your {apiCoin ? apiCoin.name : ''} Investment Summary</h3>
+        <h3>Your {apiCoin ? apiCoin.name : ''} Investment Results</h3>
         <img className ='coin_image' src={apiCoin ? apiCoin.image.small : blank}/>
       </div>
 
-      <div className='all_results'>
-        <div className='lump_sum'>
+      <div className="bloc-tabs">
+        <button
+          className={toggleState === 1 ? "tabs active-tabs" : "tabs"}
+          onClick={() => toggleTab(1)}
+        >
+          Summary
+        </button>
+        <button
+          className={toggleState === 2 ? "tabs active-tabs" : "tabs"}
+          onClick={() => toggleTab(2)}
+        >
+          Lump Sum
+        </button>
+        
+      </div>
+
+      <div className="content-tabs">
+        <div
+          className={toggleState === 1 ? "content  active-content" : "content"}
+        >
+          <div className='lump_sum'>
           <p>
             You invested ${totalDollarsInvested} and acquired {totalCoins.toFixed(2)} {apiCoin ? apiCoin.name : ''} over a {duration} day period, from {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over {filteredData.length} investments, at an average price of ${(averagePurchasePrice).toFixed(2)}
           </p>
           <p>
-            Current price of {apiCoin ? apiCoin.name : ''} as of today, {today.toLocaleDateString('en-US')}: ${(priceToday *1).toFixed(2)} Current value of your {apiCoin ? apiCoin.name : ''}: ${(priceToday * totalCoins).toFixed(2)}
+            Current price of {apiCoin ? apiCoin.name : ''} as of today, {today.toLocaleDateString('en-US')}: ${(priceToday *1).toFixed(2)} 
+          </p>
+          <p>
+          Current value of your {apiCoin ? apiCoin.name : ''}: ${(priceToday * totalCoins).toFixed(2)}
           </p>
           <p>
             Profit: ${profit} ROI: {((profit/totalDollarsInvested)*100).toFixed(2)}%
           </p>
         </div>
+        </div>
 
-        <div className='lump_sum1'>
+        <div
+          className={toggleState === 2 ? "content  active-content" : "content"}
+        >
+
+          <div className='lump_sum1'>
           <p>
             However, if you had just invested the ${totalDollarsInvested} as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, you would have acquired {lumpSumCoins.toFixed(2)} total {apiCoin ? apiCoin.name : ''}, which as of today would be worth ${lumpSumValue.toFixed(2)}. Your profit would've been ${lumpSumProfit}. ROI would've been {((lumpSumProfit/totalDollarsInvested)*100).toFixed(2)}%
           </p>
         </div>
+        </div>
+
+ 
+      </div>
+
+      <div className='all_results'>
+        
+
+        
       </div>
 
 
