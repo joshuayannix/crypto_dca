@@ -96,6 +96,14 @@
   margin-left: 10px;
 }
 
+.red {
+  color: #f00606;
+}
+
+.green {
+  color: #0dad0d;
+}
+
 /* Tabs */
 
 .bloc-tabs {

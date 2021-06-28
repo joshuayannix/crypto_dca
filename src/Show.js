@@ -232,16 +232,48 @@ function Show() {
             <div>at an average price of <strong>${(averagePurchasePrice).toFixed(2)}</strong></div>
             <div>Current price of {apiCoin ? apiCoin.name : ''} as of today, {today.toLocaleDateString('en-US')}: <strong>${(priceToday *1).toFixed(2)}</strong></div>
             <div>Your <strong>{totalCoins.toFixed(2)} {apiCoin ? apiCoin.name : ''}</strong> is currently worth <strong>${(priceToday * totalCoins).toFixed(2)}</strong></div>
-            <div>Your profit is <strong>${profit}</strong>, witn an ROI of <strong>{((profit/totalDollarsInvested)*100).toFixed(2)}%</strong></div>
+            <div>Your <strong>profit</strong>:{' '}
+            {profit < 0 ? (
+              <strong className='red' >${profit}</strong>
+            ) : (
+              <strong className='green' >${profit}</strong>
+            )}, with an <strong>ROI</strong> of {' '}
+            {profit < 0 ? (
+              <strong className='red' >{((profit/totalDollarsInvested)*100).toFixed(2)}%</strong>
+            ) : (
+              <strong className='green' >{((profit/totalDollarsInvested)*100).toFixed(2)}%</strong>
+            )}
+            </div>
           </div>
         </div>
+
+        {/* 
+
+        {priceChange < 0 ? (
+            <p className='coin-percent red'>{priceChange.toFixed(2)}%</p>
+          ) : (
+            <p className='coin-percent green'>{priceChange.toFixed(2)}%</p>
+          )} 
+
+        */}
 
         <div className={toggleState === 2 ? "content  active-content" : "content"}>
           <div className='lump_sum_tab'>
             <div> However, if you had instead invested the <strong>${totalDollarsInvested}</strong> as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, </div>
             <div>You would have acquired <strong>{lumpSumCoins.toFixed(2)}</strong> total <strong>{apiCoin ? apiCoin.name : ''}</strong></div>
             <div>which as of today would be worth <strong>${lumpSumValue.toFixed(2)}</strong></div>
-            <div>Your profit would've been <strong>${lumpSumProfit}</strong>, with an ROI of <strong>{((lumpSumProfit/totalDollarsInvested)*100).toFixed(2)}%</strong></div>
+            <div>Your <strong>profit</strong>: {' '}
+            {profit < 0 ? (
+              <strong className='red' >${lumpSumProfit}</strong>
+            ) : (
+              <strong className='green' >${lumpSumProfit}</strong>
+            )}, with an <strong>ROI</strong> of {' '} 
+            {profit < 0 ? (
+              <strong className='red' >{((lumpSumProfit/totalDollarsInvested)*100).toFixed(2)}%</strong>
+            ) : (
+              <strong className='green' >{((lumpSumProfit/totalDollarsInvested)*100).toFixed(2)}%</strong>
+            )}
+   </div>
           </div>
         </div>
       </div>
