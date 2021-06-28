@@ -106,7 +106,9 @@ function Show() {
        
   if(loading) {
     return (
-      <div>LOADING!</div>
+      <section className="section loading">
+        <h1>Loading...</h1>
+      </section>
     )
   }
 
