@@ -222,43 +222,28 @@ function Show() {
       </div>
 
       <div className="content-tabs">
-        <div
-          className={toggleState === 1 ? "content  active-content" : "content"}
-        >
-          <div className='lump_sum'>
-          <p>
-            You invested ${totalDollarsInvested} and acquired {totalCoins.toFixed(2)} {apiCoin ? apiCoin.name : ''} over a {duration} day period, from {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over {filteredData.length} investments, at an average price of ${(averagePurchasePrice).toFixed(2)}
-          </p>
-          <p>
-            Current price of {apiCoin ? apiCoin.name : ''} as of today, {today.toLocaleDateString('en-US')}: ${(priceToday *1).toFixed(2)} 
-          </p>
-          <p>
-          Current value of your {apiCoin ? apiCoin.name : ''}: ${(priceToday * totalCoins).toFixed(2)}
-          </p>
-          <p>
-            Profit: ${profit} ROI: {((profit/totalDollarsInvested)*100).toFixed(2)}%
-          </p>
-        </div>
+
+        <div className={toggleState === 1 ? "content  active-content" : "content"}>
+          <div className='summary_tab'>
+            <div>From {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over a {duration} day period,  over {filteredData.length} investments,
+            </div>
+            <div>You invested <strong>${totalDollarsInvested}</strong> and acquired <strong>{totalCoins.toFixed(2)} {apiCoin ? apiCoin.name : ''}</strong>  
+            </div>
+            <div>at an average price of <strong>${(averagePurchasePrice).toFixed(2)}</strong></div>
+            <div>Current price of {apiCoin ? apiCoin.name : ''} as of today, {today.toLocaleDateString('en-US')}: <strong>${(priceToday *1).toFixed(2)}</strong></div>
+            <div>Your <strong>{totalCoins.toFixed(2)} {apiCoin ? apiCoin.name : ''}</strong> is currently worth <strong>${(priceToday * totalCoins).toFixed(2)}</strong></div>
+            <div>Your profit is <strong>${profit}</strong>, witn an ROI of <strong>{((profit/totalDollarsInvested)*100).toFixed(2)}%</strong></div>
+          </div>
         </div>
 
-        <div
-          className={toggleState === 2 ? "content  active-content" : "content"}
-        >
-
-          <div className='lump_sum1'>
-          <p>
-            However, if you had just invested the ${totalDollarsInvested} as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, you would have acquired {lumpSumCoins.toFixed(2)} total {apiCoin ? apiCoin.name : ''}, which as of today would be worth ${lumpSumValue.toFixed(2)}. Your profit would've been ${lumpSumProfit}. ROI would've been {((lumpSumProfit/totalDollarsInvested)*100).toFixed(2)}%
-          </p>
+        <div className={toggleState === 2 ? "content  active-content" : "content"}>
+          <div className='lump_sum_tab'>
+            <div> However, if you had instead invested the <strong>${totalDollarsInvested}</strong> as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, </div>
+            <div>You would have acquired <strong>{lumpSumCoins.toFixed(2)}</strong> total <strong>{apiCoin ? apiCoin.name : ''}</strong></div>
+            <div>which as of today would be worth <strong>${lumpSumValue.toFixed(2)}</strong></div>
+            <div>Your profit would've been <strong>${lumpSumProfit}</strong>, with an ROI of <strong>{((lumpSumProfit/totalDollarsInvested)*100).toFixed(2)}%</strong></div>
+          </div>
         </div>
-        </div>
-
- 
-      </div>
-
-      <div className='all_results'>
-        
-
-        
       </div>
 
 
@@ -266,14 +251,14 @@ function Show() {
       </section>
 
       <div className='table_title'>
-        <h3>Table of Purchases: {apiCoin ? apiCoin.name : ''}</h3>
+        <h3>Table of Your {apiCoin ? apiCoin.name : ''} Purchases: </h3>
         <ReactHTMLTableToExcel
           id="test-table-xls-button"
           className="download-table-xls-button"
           table="table-to-xls"
-          filename="crypto_DCA_purchases"
+          filename={apiCoin ? apiCoin.name +'_dca': ''}
           sheet="Sheet1"
-          buttonText="Download as XLS file"
+          buttonText="Download Spreadsheet"
           
         />        
       </div>
