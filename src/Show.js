@@ -170,6 +170,7 @@ function Show() {
     
   }
 
+
   if(lumpSumCoins > 0) {
     lumpSumValue = lumpSumCoins * priceToday
     lumpSumProfit = (lumpSumValue - totalDollarsInvested).toFixed(2)
@@ -190,6 +191,8 @@ function Show() {
     )
   }
 
+  const commas = (num) => new Intl.NumberFormat('en-US').format(num)
+  
 
   return (
     <div className='show_js'>
@@ -227,16 +230,16 @@ function Show() {
           <div className='summary_tab'>
             <div>From {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over a {duration} day period,  over {filteredData.length} investments,
             </div>
-            <div>You invested <strong>${totalDollarsInvested}</strong> and acquired <strong>{totalCoins.toFixed(2)} {apiCoin ? apiCoin.name : ''}</strong>  
+            <div>You invested <strong>${commas(totalDollarsInvested)}</strong> and acquired <strong>{totalCoins.toFixed(2)} {apiCoin ? apiCoin.name : ''}</strong>  
             </div>
             <div>at an average price of <strong>${(averagePurchasePrice).toFixed(2)}</strong></div>
             <div>Current price of {apiCoin ? apiCoin.name : ''} as of today, {today.toLocaleDateString('en-US')}: <strong>${(priceToday *1).toFixed(2)}</strong></div>
-            <div>Your <strong>{totalCoins.toFixed(2)} {apiCoin ? apiCoin.name : ''}</strong> is currently worth <strong>${(priceToday * totalCoins).toFixed(2)}</strong></div>
+            <div>Your <strong>{totalCoins.toFixed(2)} {apiCoin ? apiCoin.name : ''}</strong> is currently worth <strong>${(commas(priceToday * totalCoins))}</strong></div>
             <div>Your <strong>profit</strong>:{' '}
             {profit < 0 ? (
-              <strong className='red' >${profit}</strong>
+              <strong className='red' >${commas(profit)}</strong>
             ) : (
-              <strong className='green' >${profit}</strong>
+              <strong className='green' >${commas(profit)}</strong>
             )}, with an <strong>ROI</strong> of {' '}
             {profit < 0 ? (
               <strong className='red' >{((profit/totalDollarsInvested)*100).toFixed(2)}%</strong>
@@ -247,26 +250,16 @@ function Show() {
           </div>
         </div>
 
-        {/* 
-
-        {priceChange < 0 ? (
-            <p className='coin-percent red'>{priceChange.toFixed(2)}%</p>
-          ) : (
-            <p className='coin-percent green'>{priceChange.toFixed(2)}%</p>
-          )} 
-
-        */}
-
         <div className={toggleState === 2 ? "content  active-content" : "content"}>
           <div className='lump_sum_tab'>
-            <div> However, if you had instead invested the <strong>${totalDollarsInvested}</strong> as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, </div>
+            <div> However, if you had instead invested the <strong>${commas(totalDollarsInvested)}</strong> as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, </div>
             <div>You would have acquired <strong>{lumpSumCoins.toFixed(2)}</strong> total <strong>{apiCoin ? apiCoin.name : ''}</strong></div>
-            <div>which as of today would be worth <strong>${lumpSumValue.toFixed(2)}</strong></div>
+            <div>which as of today would be worth <strong>${commas(lumpSumValue)}</strong></div>
             <div>Your <strong>profit</strong>: {' '}
             {profit < 0 ? (
-              <strong className='red' >${lumpSumProfit}</strong>
+              <strong className='red' >${commas(lumpSumProfit)}</strong>
             ) : (
-              <strong className='green' >${lumpSumProfit}</strong>
+              <strong className='green' >${commas(lumpSumProfit)}</strong>
             )}, with an <strong>ROI</strong> of {' '} 
             {profit < 0 ? (
               <strong className='red' >{((lumpSumProfit/totalDollarsInvested)*100).toFixed(2)}%</strong>

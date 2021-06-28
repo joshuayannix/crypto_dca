@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '@material-ui/core';
 import './Coin.css';
 import { Divider } from '@material-ui/core';
+import dayjs from "dayjs";
 
 const Coin = ({
   id,
@@ -35,6 +36,10 @@ const Coin = ({
     setOpen(true)
   };
   
+  const formatDate = (date) => {
+    return new Intl.DateTimeFormat('en-US').format(date)
+  }
+
   return ( <>
 
     <Modal open={open} onClose={handleClose} className='coin__modal'>
@@ -86,7 +91,7 @@ const Coin = ({
 
         <div className='coin__modal__ath'>
           <div className='ath1'><span className='modal__title'>All Time High: </span>${ath.toLocaleString()}</div>
-          <div className='ath1'><span className='modal__title'>ATH Date </span>{ath_date}</div>
+          <div className='ath1'><span className='modal__title'>ATH Date </span>{dayjs(ath_date).format('MM-DD-YYYY')}</div>
           <div className='ath1'><span className='modal__title'>% Change from ATH: </span>{ath_change_percentage}%</div>
         </div>
 
