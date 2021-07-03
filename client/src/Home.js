@@ -31,6 +31,7 @@ function Home() {
 
   const[selection, setSelection] = useState('')
 
+  // Get list of coins from API and set coins in state
   useEffect(() => {
     axios
       .get(
@@ -42,6 +43,23 @@ function Home() {
       })
       .catch(error => console.log(error));
   }, [])
+
+  /* Make API call from backend server.js */
+  
+  // useEffect(() => {
+  //   console.log('calling getCoinList')
+  //   getCoinList()
+  // }, [])
+
+  // Currently not working because coinlist data not showing up in response
+  async function getCoinList() {
+    const response = await fetch('/coinlist');
+    console.log(response)
+    const data = await response.json();
+    console.log('data from getCoinList: ', data)
+  }
+  
+  /***********************************/
 
   const handleChange = e => {
     setSearch(e.target.value);
@@ -69,11 +87,9 @@ function Home() {
       return
     }
     const query = buildQuery()
-    const query2 = buildQuery()
     history.push({
       pathname: '/show',
       search: query,
-      search2: query2
     })
     //console.log(history)
   };
@@ -176,7 +192,7 @@ function Home() {
               Your Selection:
             </div>
             <div className='coin_selection'>
-              <img className='coin_img' src={selection[2] ? selection[2] : blank}/>
+              <img className='coin_img' alt='coin' src={selection[2] ? selection[2] : blank}/>
               {selection[0]}
 
             </div>

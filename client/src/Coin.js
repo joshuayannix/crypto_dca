@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Modal } from '@material-ui/core';
 import './Coin.css';
-import { Divider } from '@material-ui/core';
 import dayjs from "dayjs";
 
 const Coin = ({
@@ -36,9 +35,9 @@ const Coin = ({
     setOpen(true)
   };
   
-  const formatDate = (date) => {
-    return new Intl.DateTimeFormat('en-US').format(date)
-  }
+  // const formatDate = (date) => {
+  //   return new Intl.DateTimeFormat('en-US').format(date)
+  // }
 
   return ( <>
 
