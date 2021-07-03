@@ -1,0 +1,62 @@
+.navbar__component {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.navbar__body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 1000px;
+}
+
+.navbar__component img {
+  height: 40px;
+  object-fit: contain;
+}
+
+#coingeckolink {
+  text-decoration: none;
+  color:black;
+  font-weight: normal;
+}
+
+.navbar__link {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgb(235, 237, 241);
+  margin-left: 20px;
+  margin-right: 20px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.saved__section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.notifications {
+  margin-left: 7px;
+  background-color: red;
+  color: white;
+  border-radius: 100px;
+  width: 40px;
+  height: 30px;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

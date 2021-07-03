@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -113,13 +113,6 @@ function Home() {
   return (
     <div className='home'>
 
-      <div className='home_title'>
-        <h2>Cryptocurrency Dollar Cost Average Calculator</h2>
-        <p className='instructions'>
-          Select a cryptocurrency, start and end date, investment amount, and a frequency. Powered by CoinGecko API.
-        </p>
-        <Link to='/savedsearches'>Saved Searches</Link>
-      </div>
       
       <form onSubmit={handleSubmit} className='inputs'>    
         

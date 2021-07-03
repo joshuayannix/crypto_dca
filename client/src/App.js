@@ -1,25 +1,31 @@
 import { BrowserRouter, Route } from "react-router-dom";
 import Home from './Home'
 import Show from './Show';
+import Navbar from './Navbar';
 import SavedSearches from './SavedSearches';
 
 function App() {
   return (
     <BrowserRouter>
       <div>
-      <Route exact path="/" component={props => <Home {...props} />} />
 
-      <Route path = '/show'>
-        <Show />
-      </Route>
+        <Route exact path = '/'>
+          <Navbar />
+          <Home />
+        </Route>
 
-      <Route path = '/savedsearches'>
-        <SavedSearches />
-      </Route>
+        <Route path = '/show'>
+          <Navbar />
+          <Show />
+        </Route>
+
+        <Route path = '/savedsearches'>
+          <Navbar />
+          <SavedSearches />
+        </Route>
 
       </div>
     </BrowserRouter>
-    
   );
 }
 

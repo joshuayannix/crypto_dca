@@ -8,18 +8,16 @@ import blank from './blank.gif'
 import axiosInstance from './axios';
 
 // External libraries
-import { useHistory, Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import axios from 'axios';
 import dayjs from "dayjs";
 import * as ReactBootStrap from 'react-bootstrap';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 function Show() {
   // Router Hooks
   let location = useLocation();
-  const history = useHistory();
   // State  
   const [params, setParams] = useState({});
   const [loading, setLoading] = useState(false);
@@ -43,12 +41,12 @@ function Show() {
 
     await axiosInstance.post('/messages/new', {
         amount: params.amount,
-        cointype: params.coinType,
+        cointype: apiCoin.name,
         freq: params.freq,
         start: params.start,
         end: params.end,
         searchquery: location.search,
-        timestamp: "test timestamp",
+        timestamp: new Date().toUTCString(),
         coinimageurl: apiCoin.image.small,
         user: "Josh Yannix",        
     });
@@ -131,11 +129,7 @@ function Show() {
     )
   }
 
-  const backHome = () => {
-    history.push({
-      pathname:'/'
-    })
-  }
+
   /******** Data Calculations *******/
 
   const filteredData = [];
@@ -220,17 +214,13 @@ function Show() {
       <section className='above_table'>
 
       
-      <div className='header'>
-        <button className='back_button' onClick={backHome}>
-          <ArrowBackIosIcon/>
-          Back to Home
-        </button>
+      <div className='show__header'>
+   
         <h3>Your {apiCoin ? apiCoin.name : ''} Investment Results</h3>
-        <img className ='coin_image' src={apiCoin ? apiCoin.image.small : blank}/>
-        <button onClick={sendMessage}>
-          Save this Search
+        <img alt='crypto' className ='coin_image' src={apiCoin ? apiCoin.image.small : blank}/>
+        <button className='save__search__button' onClick={sendMessage}>
+          Save Search
         </button>
-        <Link to='/savedsearches'>Saved Searches</Link>
       </div>
 
       <div className="bloc-tabs">

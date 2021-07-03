@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import Pusher from 'pusher-js';
 import axiosInstance from './axios'
-import { useHistory, Link, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import './SavedSearches.css'
 
 function SavedSearches() {
+  
+  const history = useHistory();
+
+  /*** Retrieve Messages from MongoDB **********/
   const [messages, setMessages] = useState([])
 
   useEffect(() => {
@@ -34,27 +39,59 @@ function SavedSearches() {
 
   console.log(messages);
 
-  return (
-    <div>
-      <h1>saved searches page!</h1>
-      <Link to='/'>Home</Link>
+  /*******************************************/
 
-      {messages.map((message) => (
-        <>
-          <div>
-            <div>Amount: {message.amount}</div>
-            <div>Crypto: {message.cointype}</div>
-            <div>Frequency: {message.freq}</div>
-            <div>Start date: {message.start}</div>
-            <div>End Date: {message.end}</div>
-            <div>{message.searchquery}</div>
-            <div>Date saved: {message.timestamp}</div>
-            <div>{message.coinimageurl}</div>
-            <div>User: {message.user}</div>               
-          </div>
-          <button>Click to run this search</button>
-        </>
-      ))}
+  const runSearch = (searchquery) => {
+    history.push({
+      pathname: '/show',
+      search: searchquery,
+    })
+  }
+
+  return (
+    <div className='savedsearches'>
+      <h3>Saved Searches</h3>
+
+      <div className='savedsearches__body'>
+
+      
+        {messages.map((message) => (
+          <>
+            <div className='single__search'> 
+              <div className='single__search__col0'>
+                <img className ='coin_image' alt='crypto' src={message.coinimageurl}/>  
+                <div>{message.cointype}</div>
+              </div>
+
+              <div className='single__search__col'>
+                <div>Amount: ${message.amount}</div>     
+                <div>Frequency: {message.freq}</div>
+              </div>
+
+              <div className='single__search__col'>
+                <div>Start date: {message.start}</div>
+                <div>End Date: {message.end}</div>
+              </div>
+
+              <div className='single__search__col'>
+                <div>User: {message.user}</div>  
+                <div>Date saved: {message.timestamp}</div>                              
+              </div>
+              
+              
+               
+              <button 
+                className='run_button'
+                onClick={() => runSearch(message.searchquery)}
+              >
+                Run Search
+              </button>            
+            </div>
+            
+          </>
+        ))}
+
+      </div>
 
     </div>
   )

@@ -123,8 +123,10 @@ const Coin = ({
             Mkt Cap: ${marketcap.toLocaleString()}
           </p>
         </div>
+        
         <button className='select_button'onClick={sendToParent}>Select</button>
-          <button className='select_button'onClick={handleClick}>Info</button>
+
+        <button className='select_button'onClick={handleClick}>Info</button>
       </div>
 
     </div>
