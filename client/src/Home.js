@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import axios from 'axios'
@@ -52,12 +53,12 @@ function Home() {
   // }, [])
 
   // Currently not working because coinlist data not showing up in response
-  async function getCoinList() {
-    const response = await fetch('/coinlist');
-    console.log(response)
-    const data = await response.json();
-    console.log('data from getCoinList: ', data)
-  }
+  // async function getCoinList() {
+  //   const response = await fetch('/coinlist');
+  //   console.log(response)
+  //   const data = await response.json();
+  //   console.log('data from getCoinList: ', data)
+  // }
   
   /***********************************/
 
@@ -70,7 +71,6 @@ function Home() {
   );
 
   const buildQuery = () => {
-    
     const frequencyNumeric = freq;
     const startDateString = `${startDate.getFullYear()}-${(startDate.getMonth()+1).toString().padStart(2,0)}-${(startDate.getDate()).toString().padStart(2,0)}`;
     const endDateString = `${endDate.getFullYear()}-${(endDate.getMonth()+1).toString().padStart(2,0)}-${(endDate.getDate()).toString().padStart(2,0)}`;
@@ -118,6 +118,7 @@ function Home() {
         <p className='instructions'>
           Select a cryptocurrency, start and end date, investment amount, and a frequency. Powered by CoinGecko API.
         </p>
+        <Link to='/savedsearches'>Saved Searches</Link>
       </div>
       
       <form onSubmit={handleSubmit} className='inputs'>    

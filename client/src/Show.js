@@ -4,9 +4,11 @@ import { _validateAmount, _validateFrequency, _validateStartDate, _validateEndDa
 import './Show.css';
 import blank from './blank.gif'
 
+// axios instance to post api request to backend
+import axiosInstance from './axios';
+
 // External libraries
-import { useHistory } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
+import { useHistory, Link, useLocation } from "react-router-dom";
 import queryString from "query-string";
 import axios from 'axios';
 import dayjs from "dayjs";
@@ -35,6 +37,23 @@ function Show() {
     setToggleState(index);
   };
 
+  // MongoDB Send new saved search
+  const sendMessage = async (e) => {    
+    console.log('sending message to mongodb')
+
+    await axiosInstance.post('/messages/new', {
+        amount: params.amount,
+        cointype: params.coinType,
+        freq: params.freq,
+        start: params.start,
+        end: params.end,
+        searchquery: location.search,
+        timestamp: "test timestamp",
+        coinimageurl: apiCoin.image.small,
+        user: "Josh Yannix",        
+    });
+  };
+
   useEffect(() => {
     const params = queryString.parse(location.search);        
     console.log('location from Show.js: ', location.search);
@@ -58,7 +77,7 @@ function Show() {
       
       setParams(params)
       setLoading(true)
-      //console.log('params updated in state: ',params)
+      console.log('params updated in state: ',params)
       getCoinData(start, end, coinType)
     }
 
@@ -208,6 +227,10 @@ function Show() {
         </button>
         <h3>Your {apiCoin ? apiCoin.name : ''} Investment Results</h3>
         <img className ='coin_image' src={apiCoin ? apiCoin.image.small : blank}/>
+        <button onClick={sendMessage}>
+          Save this Search
+        </button>
+        <Link to='/savedsearches'>Saved Searches</Link>
       </div>
 
       <div className="bloc-tabs">

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Pusher from 'pusher-js';
+import axiosInstance from './axios'
+import { useHistory, Link, useLocation } from "react-router-dom";
 
 function SavedSearches() {
   const [messages, setMessages] = useState([])
 
   useEffect(() => {
-    axios.get('/messages/sync')
+    axiosInstance.get('/messages/sync')
       .then(response => {
         setMessages(response.data)
       })
@@ -35,18 +37,23 @@ function SavedSearches() {
   return (
     <div>
       <h1>saved searches page!</h1>
+      <Link to='/'>Home</Link>
 
       {messages.map((message) => (
-        <p>
-            {message.amount}
-            {message.cointype}
-            {message.freq}
-            {message.start}
-            {message.end}
-            {message.searchquery}
-            {message.timestamp}
-            {message.user}
-        </p>
+        <>
+          <div>
+            <div>Amount: {message.amount}</div>
+            <div>Crypto: {message.cointype}</div>
+            <div>Frequency: {message.freq}</div>
+            <div>Start date: {message.start}</div>
+            <div>End Date: {message.end}</div>
+            <div>{message.searchquery}</div>
+            <div>Date saved: {message.timestamp}</div>
+            <div>{message.coinimageurl}</div>
+            <div>User: {message.user}</div>               
+          </div>
+          <button>Click to run this search</button>
+        </>
       ))}
 
     </div>
