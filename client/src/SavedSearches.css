@@ -35,13 +35,32 @@
   width: 120px;
   min-width: 100px;
   font-weight: bold;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .run_button:hover {
   background-color: rgb(0, 165, 93);
   border-color: rgb(0, 165, 93);
 }
+
+.delete_button{
+  background-color: red;  
+  border: 1px solid red;
+  color: white;
+  border-radius: 4px;
+  transition: all 80ms ease-in-out 0s;
+  height: 40px;
+  width: 130px;
+  min-width: 100px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.delete_button:hover {
+  background-color: rgb(209, 6, 6);
+  border-color: rgb(209, 6, 6);
+}
+
 
 .single__search img {
   height: 50px;

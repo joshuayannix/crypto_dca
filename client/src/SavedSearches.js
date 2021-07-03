@@ -25,7 +25,7 @@ function SavedSearches() {
 
     const channel = pusher.subscribe('messages');
     channel.bind('inserted', (newMessage) => {
-      //alert(JSON.stringify(newMessage));
+      // alert(JSON.stringify(newMessage));
       setMessages([...messages, newMessage])
     });
 
@@ -36,6 +36,27 @@ function SavedSearches() {
     };
 
   }, [messages]);
+
+  // pusher for delete events
+  // useEffect(() => {
+  //   const pusher = new Pusher('72ef0f1bbd0d6ba3d49d', {
+  //     cluster: 'us2'
+  //   });
+  //   console.log('delete trigger pusher test')
+
+  //   const channel = pusher.subscribe('messages');
+  //   channel.bind('deleted', () => {
+  //     alert('deleting message')
+  //     console.log('deleting message')
+  //     setMessages([...messages])
+  //   })
+
+  //   return () => {
+  //     channel.unbind_all();
+  //     channel.unsubscribe();
+  //   };
+
+  // }, [messages])
 
   console.log(messages);
 
@@ -48,6 +69,17 @@ function SavedSearches() {
     })
   }
 
+  const deleteSearch = id => {
+    axiosInstance.delete(`/messages/delete/${id}`).then((res) => {
+      console.log('deleted search: ' + id);
+      setMessages(
+        messages.filter((val) => {
+          return val._id != id;
+        })
+      )
+    })
+  }
+
   return (
     <div className='savedsearches'>
       <h3>Saved Searches</h3>
@@ -55,7 +87,7 @@ function SavedSearches() {
       <div className='savedsearches__body'>
 
       
-        {messages.map((message) => (
+        {messages.slice(0).reverse().map((message) => (
           <>
             <div className='single__search'> 
               <div className='single__search__col0'>
@@ -85,6 +117,12 @@ function SavedSearches() {
                 onClick={() => runSearch(message.searchquery)}
               >
                 Run Search
+              </button>     
+              <button 
+                className='delete_button'
+                onClick={() => deleteSearch(message._id)}
+              >
+                Delete Search
               </button>            
             </div>
             
