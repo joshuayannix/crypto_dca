@@ -47,22 +47,6 @@ function Home() {
       .catch(error => console.log(error));
   }, [])
 
-  /* Make API call from backend server.js */
-  
-  // useEffect(() => {
-  //   console.log('calling getCoinList')
-  //   getCoinList()
-  // }, [])
-
-  // Currently not working because coinlist data not showing up in response
-  // async function getCoinList() {
-  //   const response = await fetch('/coinlist');
-  //   console.log(response)
-  //   const data = await response.json();
-  //   console.log('data from getCoinList: ', data)
-  // }
-  
-  /***********************************/
 
   const handleChange = e => {
     setSearch(e.target.value);
@@ -109,13 +93,12 @@ function Home() {
 
     console.log('start and end datestring', startDateString, endDateString)
 
-    // Validate start and end date cannot be before 1-12-2009
-    
-
+  
     // Validate that duration cannot be negative (start date cant be after end date)
     const getDuration = (a, b) => {
       let dayjsA = dayjs(a)
       let dayjsB = dayjs(b)
+      console.log('dayjs:', dayjsA, dayjsB)
       let difference = dayjsB.diff(dayjsA, 'days')
       return difference
     }
@@ -124,6 +107,21 @@ function Home() {
     if(duration < 0) {
       alert('Start date cannot be after the end date')
       return
+    }
+
+    // Start and End date cannot be in the future (after Today)
+
+    let today = new Date()
+    let formattedToday = dayjs(today).format('YYYY-MM-DD');
+    
+    let durationTodayToStart = getDuration(startDateString, formattedToday)
+    let durationTodayToEnd = getDuration(endDateString, formattedToday)
+
+    console.log('durations today', durationTodayToStart, durationTodayToEnd)
+
+    if(durationTodayToStart < 0 || durationTodayToEnd < 0) {
+      alert('Start and End dates cannot be in the future (cannot be after Today)');
+      return;
     }
 
     const query = buildQuery()
