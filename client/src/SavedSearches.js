@@ -77,6 +77,7 @@ function SavedSearches() {
           return val._id !== id;
         })
       )
+      window.location.reload()
     })
   }
 
