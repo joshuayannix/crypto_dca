@@ -41,12 +41,12 @@ function Navbar() {
 
   }, [messages]);
 
-  console.log(messages);
+  //console.log(messages);
 
   /********* User Auth Functions *************/
 
   const user = useSelector(selectUser);
-  console.log(user)
+  //console.log(user)
   const handleAuthentication = () => {
     if (user) {
       auth.signOut();

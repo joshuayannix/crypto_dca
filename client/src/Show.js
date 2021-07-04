@@ -1,6 +1,5 @@
 // Sub components and helper files
 import React, { useEffect, useState } from 'react';
-import { _validateAmount, _validateFrequency, _validateStartDate, _validateEndDate, } from './validations';
 import './Show.css';
 import blank from './blank.gif'
 
@@ -17,7 +16,6 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 // User auth imports
 import { useSelector } from 'react-redux';
-import { auth } from './firebase';
 import { selectUser } from './features/userSlice';
 
 function Show() {
@@ -58,7 +56,6 @@ function Show() {
   };
 
   const user = useSelector(selectUser);
-  console.log('user: ',user)
 
   useEffect(() => {
     const params = queryString.parse(location.search);        
@@ -70,12 +67,7 @@ function Show() {
       let startDate = dayjs(start);      
       let endDate = dayjs(end);
   
-      error = _validateAmount(amount) || error;
-      error = _validateFrequency(freq) || error;
-      error = _validateStartDate(startDate) || error;
-      error = _validateEndDate(endDate) || error;
-      //error = _validateDatesOverlap(duration) || error;
-  
+
       if(error && error.length > 0) {
         //setError(error)
         return;

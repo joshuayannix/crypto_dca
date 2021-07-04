@@ -7,6 +7,8 @@ import axios from 'axios'
 import Coin from './Coin';
 import './Home.css';
 import blank from './blank.gif'
+import dayjs from "dayjs";
+
 
 // MaterialUI inputs
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
@@ -75,6 +77,10 @@ function Home() {
     const startDateString = `${startDate.getFullYear()}-${(startDate.getMonth()+1).toString().padStart(2,0)}-${(startDate.getDate()).toString().padStart(2,0)}`;
     const endDateString = `${endDate.getFullYear()}-${(endDate.getMonth()+1).toString().padStart(2,0)}-${(endDate.getDate()).toString().padStart(2,0)}`;
 
+    if(startDateString === endDateString) {
+      alert('Start date cannot be the same as End date')
+      return
+    }
     const dateString = `?start=${startDateString}&end=${endDateString}`;
 
     return `${dateString}&amount=${amount}&freq=${frequencyNumeric}&coinType=${selection[1]}`;
@@ -82,16 +88,49 @@ function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(amount <= 0) {
+      alert('Amount must be greater than 0')
+      return
+    }
+
     if(!selection) {
       alert('Please Select a cryptocurrency and calculate again')
       return
     }
+
+    const startDateString = `${startDate.getFullYear()}-${(startDate.getMonth()+1).toString().padStart(2,0)}-${(startDate.getDate()).toString().padStart(2,0)}`;
+    const endDateString = `${endDate.getFullYear()}-${(endDate.getMonth()+1).toString().padStart(2,0)}-${(endDate.getDate()).toString().padStart(2,0)}`;
+
+    if(startDateString === endDateString) {
+      alert('Start date cannot be the same as End date')
+      return
+    }
+
+    console.log('start and end datestring', startDateString, endDateString)
+
+    // Validate start and end date cannot be before 1-12-2009
+    
+
+    // Validate that duration cannot be negative (start date cant be after end date)
+    const getDuration = (a, b) => {
+      let dayjsA = dayjs(a)
+      let dayjsB = dayjs(b)
+      let difference = dayjsB.diff(dayjsA, 'days')
+      return difference
+    }
+    
+    let duration = getDuration(startDateString, endDateString);
+    if(duration < 0) {
+      alert('Start date cannot be after the end date')
+      return
+    }
+
     const query = buildQuery()
     history.push({
       pathname: '/show',
       search: query,
     })
-    //console.log(history)
   };
 
   const handleAmount = e => {
