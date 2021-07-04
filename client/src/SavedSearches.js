@@ -74,10 +74,16 @@ function SavedSearches() {
       console.log('deleted search: ' + id);
       setMessages(
         messages.filter((val) => {
-          return val._id != id;
+          return val._id !== id;
         })
       )
     })
+  }
+
+  const freqMap = {
+    1: 'Daily',
+    7: 'Weekly',
+    30: 'Monthly'
   }
 
   return (
@@ -97,21 +103,21 @@ function SavedSearches() {
 
               <div className='single__search__col'>
                 <div>Amount: ${message.amount}</div>     
-                <div>Frequency: {message.freq}</div>
-              </div>
-
-              <div className='single__search__col'>
-                <div>Start date: {message.start}</div>
-                <div>End Date: {message.end}</div>
-              </div>
-
-              <div className='single__search__col'>
+                <div>Frequency: {freqMap[message.freq]}</div>
                 <div>User: {message.user}</div>  
-                <div>Date saved: {message.timestamp}</div>                              
               </div>
-              
-              
-               
+
+              <div className='single__search__col'>
+                <div>Start Date: {message.start}</div>
+                <div>End Date: {message.end}</div>
+                <div>Date saved: {message.timestamp}</div>     
+              </div>
+
+              <div className='single__search__col'>
+                
+                                       
+              </div>
+                        
               <button 
                 className='run_button'
                 onClick={() => runSearch(message.searchquery)}

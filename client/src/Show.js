@@ -1,4 +1,4 @@
-//Sub components and helper files
+// Sub components and helper files
 import React, { useEffect, useState } from 'react';
 import { _validateAmount, _validateFrequency, _validateStartDate, _validateEndDate, } from './validations';
 import './Show.css';
@@ -14,6 +14,11 @@ import axios from 'axios';
 import dayjs from "dayjs";
 import * as ReactBootStrap from 'react-bootstrap';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+
+// User auth imports
+import { useSelector } from 'react-redux';
+import { auth } from './firebase';
+import { selectUser } from './features/userSlice';
 
 function Show() {
   // Router Hooks
@@ -48,9 +53,12 @@ function Show() {
         searchquery: location.search,
         timestamp: new Date().toUTCString(),
         coinimageurl: apiCoin.image.small,
-        user: "Josh Yannix",        
+        user: user ? user.displayName : 'Guest',        
     });
   };
+
+  const user = useSelector(selectUser);
+  console.log('user: ',user)
 
   useEffect(() => {
     const params = queryString.parse(location.search);        

@@ -3,7 +3,13 @@ import Pusher from 'pusher-js';
 import axiosInstance from './axios'
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-import coingecko from './CoinGecko.png'
+import coingecko from './CoinGecko.png';
+
+// User auth imports
+import { useSelector } from 'react-redux';
+import { auth } from './firebase';
+import { selectUser } from './features/userSlice';
+
 
 function Navbar() {
   /*** Retrieve Messages from MongoDB **********/
@@ -37,9 +43,15 @@ function Navbar() {
 
   console.log(messages);
 
-  /*******************************************/
+  /********* User Auth Functions *************/
 
-
+  const user = useSelector(selectUser);
+  console.log(user)
+  const handleAuthentication = () => {
+    if (user) {
+      auth.signOut();
+    }
+  }
 
   return (
     <div className='navbar__component'>
@@ -54,6 +66,16 @@ function Navbar() {
             <img alt='coingecko logo' src={coingecko}/>
           </div>
         </a>
+
+        <Link to={!user && '/login'} className='navbar__link'>
+          <div 
+            onClick={handleAuthentication}
+            className="header__option"
+          >
+            <span className='header__optionLineOne'>Hello, {user ? user.displayName : 'Guest'}. </span>
+            <span className='header__optionLineTwo'>{user ? 'Sign Out' : 'Sign In'}</span>
+          </div>
+        </Link> 
                     
         <Link className='navbar__link saved__section' to='/savedsearches'>
           Saved Searches: 
