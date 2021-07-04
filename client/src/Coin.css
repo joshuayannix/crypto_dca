@@ -164,20 +164,28 @@
   margin-right: 20px;
 }
 
-/* Coin Price Data */
+
+/* Below Header Section */
 .coin__modal__data {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
+}
+
+/* Coin 24  Data */
+.coin__modal__24 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items:center;
   font-size: 16px;
-  margin-bottom: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+  border: 1px solid white;
+  border-radius: 10px;
+  height: 100%;
 }
 
 .data1 {
-  width: 25%;
   height: 100%;
   padding: 10px;
 }
@@ -185,33 +193,34 @@
 
 .coin__modal__supply {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content:center;
   align-items: center;
-  height: 80px;
-  width: 100%;  
   font-size: 16px;
-  margin-bottom: 10px;
+  border: 1px solid white;
+  border-radius: 10px;
+  height: 100%;
 }
 
 .supply1 {
-  width: 33%;
   height: 100%;
-  padding: 20px;  
+  padding: 10px;
 }
 
 /* Coin All Time High Data */
 
 .coin__modal__ath {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   font-size: 16px;
   justify-content:center;
   align-items: center;
+  border: 1px solid white;
+  border-radius: 10px;
+  height: 100%;
 }
 
 .ath1 {
-  width: 33%;
   height: 100%;
-  padding: 20px;
+  padding: 10px;
 }

@@ -59,7 +59,13 @@ const Coin = ({
           
         </div>
 
-        <div className='coin__modal__data'>
+
+        <section className='coin__modal__data'>
+            
+
+
+        
+        <div className='coin__modal__24'>
           
           <div className='data1'>
             <span className='modal__title'>24h High: </span> 
@@ -93,6 +99,9 @@ const Coin = ({
           <div className='ath1'><span className='modal__title'>ATH Date </span>{dayjs(ath_date).format('MM-DD-YYYY')}</div>
           <div className='ath1'><span className='modal__title'>% Change from ATH: </span>{ath_change_percentage}%</div>
         </div>
+
+
+        </section>
 
       </div>
       
