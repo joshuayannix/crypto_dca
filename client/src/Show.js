@@ -14,6 +14,11 @@ import dayjs from "dayjs";
 import * as ReactBootStrap from 'react-bootstrap';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
+
+// Framer motion imports
+import { animationOne,  animationTwo, animationThree, transition } from './animations';
+import { motion } from 'framer-motion';
+
 // User auth imports
 import { useSelector } from 'react-redux';
 import { selectUser } from './features/userSlice';
@@ -210,6 +215,14 @@ function Show() {
   
 
   return (
+
+    <motion.div
+    initial='out'
+      animate='end'
+      exit='out'
+      variants={animationThree}
+    >
+
     <div className='show_js'>
       <section className='above_table'>
 
@@ -325,6 +338,8 @@ function Show() {
       </div>
   
     </div>
+
+    </motion.div>
   )
 }
 

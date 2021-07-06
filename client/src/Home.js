@@ -18,6 +18,10 @@ import Select from '@material-ui/core/Select';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import InputLabel from '@material-ui/core/InputLabel';
 
+// Framer motion imports
+import { animationOne,  animationTwo, animationThree, transition } from './animations';
+import { motion } from 'framer-motion';
+
 
 function Home() {
   const history = useHistory();
@@ -148,9 +152,14 @@ function Home() {
 
   
   return (
+    <motion.div
+    initial='out' 
+    animate='in' 
+    exit='out' 
+    variants={animationTwo}
+    >
     <div className='home'>
 
-      
       <form onSubmit={handleSubmit} className='inputs'>    
         
         <div className='amount_frequency'>
@@ -283,6 +292,7 @@ function Home() {
       
       
     </div>
+    </motion.div>
   )
 }
 

@@ -4,6 +4,10 @@ import axiosInstance from './axios'
 import { useHistory } from "react-router-dom";
 import './SavedSearches.css'
 
+// Framer motion imports
+import { animationOne,  animationTwo, animationThree, transition } from './animations';
+import { motion } from 'framer-motion';
+
 function SavedSearches() {
   
   const history = useHistory();
@@ -88,6 +92,12 @@ function SavedSearches() {
   }
 
   return (
+    <motion.div
+    initial='out' 
+    animate='in' 
+    exit='out' 
+    variants={animationTwo}
+    >
     <div className='savedsearches'>
       <h3>Saved Searches</h3>
 
@@ -139,6 +149,8 @@ function SavedSearches() {
       </div>
 
     </div>
+
+    </motion.div>
   )
 }
 

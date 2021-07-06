@@ -1,8 +1,11 @@
 import React from 'react';
 import './Login.css'
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { auth, provider } from './firebase';
 
+// Framer motion imports
+import { animationOne,  animationTwo, animationThree, transition } from './animations';
+import { motion } from 'framer-motion';
 
 function Login() {
   const history = useHistory();
@@ -18,10 +21,15 @@ function Login() {
   }
 
   return (
-    <div className='login'>
-      <Link to ='/'>
 
-      </Link>
+    <motion.div
+    initial='out'
+      animate='end'
+      exit='out'
+      variants={animationThree}
+    >
+    <div className='login'>
+ 
       <div className="login__container">
         <h3>Sign in to Crypto DCA Calculator</h3>
         <form action="">          
@@ -38,6 +46,7 @@ function Login() {
 
       </div>
     </div>
+    </motion.div>
   )
 }
 
