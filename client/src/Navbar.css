@@ -9,6 +9,7 @@
 
 .title__container {
   display: flex;
+  flex-direction: row;
   justify-content: center;  
   align-items: center;  
 }
@@ -102,5 +103,11 @@
 @media (min-width: 900px) {
   .hamburger__links__container {
     display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .title__container {
+    flex-direction: column;
   }
 }

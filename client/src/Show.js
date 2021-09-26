@@ -258,11 +258,14 @@ function Show() {
           <div className='summary_tab'>
             <div>From {new Date(params.start).toLocaleDateString('en-US')} to {new Date(params.end).toLocaleDateString('en-US')}, over a {duration} day period,  over {filteredData.length} investments,
             </div>
-            <div>You invested <strong>${commas(totalDollarsInvested)}</strong> and acquired <strong>{totalCoins.toFixed(2)} {apiCoin ? apiCoin.name : ''}</strong>  
+
+            <div>You invested <strong>${commas(totalDollarsInvested)}</strong> and acquired <strong>{totalCoins.toFixed(2)} {apiCoin ? apiCoin.name : ''}</strong> at an average price of <strong>${(averagePurchasePrice).toFixed(2)}</strong>
             </div>
-            <div>at an average price of <strong>${(averagePurchasePrice).toFixed(2)}</strong></div>
+          
             <div>Current price of {apiCoin ? apiCoin.name : ''} as of today, {today.toLocaleDateString('en-US')}: <strong>${(priceToday *1).toFixed(2)}</strong></div>
+
             <div>Your <strong>{totalCoins.toFixed(2)} {apiCoin ? apiCoin.name : ''}</strong> is currently worth <strong>${(commas(priceToday * totalCoins))}</strong></div>
+            
             <div>Your <strong>profit</strong>:{' '}
             {profit < 0 ? (
               <strong className='red' >${commas(profit)}</strong>
@@ -275,12 +278,13 @@ function Show() {
               <strong className='green' >{((profit/totalDollarsInvested)*100).toFixed(2)}%</strong>
             )}
             </div>
+
           </div>
         </div>
 
         <div className={toggleState === 2 ? "content  active-content" : "content"}>
           <div className='lump_sum_tab'>
-            <div> However, if you had instead invested the <strong>${commas(totalDollarsInvested)}</strong> as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, </div>
+            <div>If you had instead invested the <strong>${commas(totalDollarsInvested)}</strong> as a lump sum on {new Date(params.start).toLocaleDateString('en-US')}, </div>
             <div>You would have acquired <strong>{lumpSumCoins.toFixed(2)}</strong> total <strong>{apiCoin ? apiCoin.name : ''}</strong></div>
             <div>which as of today would be worth <strong>${commas(lumpSumValue)}</strong></div>
             <div>Your <strong>profit</strong>: {' '}
@@ -304,14 +308,14 @@ function Show() {
       </section>
 
       <div className='table_title'>
-        <h3>Table of Your {apiCoin ? apiCoin.name : ''} Purchases: </h3>
+        <h3>Your {apiCoin ? apiCoin.name : ''} Purchases: </h3>
         <ReactHTMLTableToExcel
           id="test-table-xls-button"
           className="download-table-xls-button"
           table="table-to-xls"
           filename={apiCoin ? apiCoin.name +'_dca': ''}
           sheet="Sheet1"
-          buttonText="Download Spreadsheet"
+          buttonText="Download"
           
         />        
       </div>
@@ -325,7 +329,7 @@ function Show() {
               <th>Dollars Invested</th>
               <th>Total Dollars Invested</th>
               <th>Purchase Price</th>
-              <th>Amount of {apiCoin ? apiCoin.name : ''} purchased on this date</th>
+              <th>Amount Of {apiCoin ? apiCoin.name : ''} Purchased On This Date</th>
               <th>Total {apiCoin ? apiCoin.name : ''} Accumulated</th>
             </tr>    
           </thead>

@@ -107,21 +107,25 @@ const Coin = ({
       
     </Modal>
 
-    <div className='coin-container'>
+    <div className='coin__row__container'>
 
-      <div className='coin-row'>
+        <div className='coin__title'>
 
-        <div className='coin'>
-          <p className='coin-rank'>{market_cap_rank}</p>
-          <img src={image} alt='crypto' />
-          <h1>{name}</h1>
-          <p className='coin-symbol'>{symbol}</p>
+          <div className="coin__title__col1">
+            <p className='coin-rank'>{market_cap_rank}</p>
+            <img src={image} alt='crypto' />
+          </div>
+          
+          <div className="coin__title__col2">
+            <h1>{name}</h1>
+            <p className='coin-symbol'>{symbol}</p>
+          </div>
+          
         </div>
 
         <div className='coin-data'>          
           <p className='coin-price'>${price.toLocaleString()}</p>
           
-
           {priceChange < 0 ? (
             <p className='coin-percent red'>{priceChange.toFixed(2)}%</p>
           ) : (
@@ -133,10 +137,12 @@ const Coin = ({
           </p>
         </div>
         
-        <button className='select_button'onClick={sendToParent}>Select</button>
+        <div className="buttons__container">
+          <button className='select_button'onClick={sendToParent}>Select</button>
 
-        <button className='select_button'onClick={handleClick}>Info</button>
-      </div>
+          <button className='select_button'onClick={handleClick}>Info</button>
+        </div>
+        
 
     </div>
   

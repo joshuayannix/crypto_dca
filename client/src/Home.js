@@ -258,14 +258,15 @@ function Home() {
             className='search_bar'
             type='text'
             onChange={handleChange}
-            placeholder='Start typing here to filter on a cryptocurrency'
+            placeholder='Filter on cryptocurrency'
             size='80'
           />
         </form>
+        
+        <div className="coins__container">
 
-        {filteredCoins.map(coin => {
-          return (
-            <div>          
+          {filteredCoins.map(coin => {
+            return (
               <Coin
                 handler={handleSelect}
                 key={coin.id}
@@ -287,10 +288,10 @@ function Home() {
                 market_cap_rank={coin.market_cap_rank}
                 circulating_supply={coin.circulating_supply}
               />
+            );
+          })}
 
-            </div>                    
-          );
-        })}
+        </div>
       </div>
       
       

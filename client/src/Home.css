@@ -130,6 +130,16 @@
   background-color: rgb(255, 255, 255);
   margin: 10px;
   padding-top: 10px;
+  width: 100%;
+}
+
+.coins__container {
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .coin_img {
@@ -139,18 +149,11 @@
   margin-left: 10px;
 }
 
+
 @media (max-width: 604px) {
   .inputs__container {
     flex-direction: column;
     width: 100%;
-  }
-  .toggle-button {
-    display: flex;
-  }
-
-  .navbar__component {
-    display: flex;
-    flex-direction: column;
   }
 
   .fullsize__links__container {
