@@ -22,7 +22,6 @@
   display: flex;
   align-items: center;
   min-width: 300px;
-  
 }
 
 .coin-rank {
@@ -35,11 +34,13 @@
   width: 30px;
   margin-right: 10px;
   margin-left: 10px;
+  margin-bottom: 10px;
 }
 
 .coin h1 {
   font-size: 14px;
   width: 150px;
+  margin-bottom: 10px;
 }
 
 .coin-symbol {
@@ -62,6 +63,7 @@
 .coin-percent {
   width: 60px;
   font-size: 14px;
+  margin-right: 1rem;
 }
 
 .red {
@@ -82,13 +84,13 @@
   border: 1px solid rgb(22, 82, 240);
   background-color: rgb(22, 82, 240);
   color: white;
-
   border-radius: 4px;
   transition: all 80ms ease-in-out 0s;
   width: 100px;
   height: 35px;
   font-weight: bold;
   margin: 5px;
+  padding: 5px;
 }
 
 .select_button:hover {
@@ -223,4 +225,23 @@
 .ath1 {
   height: 100%;
   padding: 10px;
+}
+
+@media (max-width: 850px) {
+  .coin-marketcap {
+    display: none;
+  }
+  .toggle-button {
+    display: flex;
+  }
+
+  .navbar__component {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fullsize__links__container {
+    display: none;
+  }
+
 }

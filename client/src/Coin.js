@@ -41,7 +41,11 @@ const Coin = ({
 
   return ( <>
 
-    <Modal open={open} onClose={handleClose} className='coin__modal'>
+    <Modal 
+      open={open} 
+      onClose={handleClose} 
+      className='coin__modal'
+    >
       <div className='coin__modal__container'>
 
         <div className='coin__modal__header'>
@@ -59,12 +63,8 @@ const Coin = ({
           
         </div>
 
-
         <section className='coin__modal__data'>
             
-
-
-        
         <div className='coin__modal__24'>
           
           <div className='data1'>

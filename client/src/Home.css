@@ -4,7 +4,6 @@
   align-items: center;
   justify-content: center;
   background-color: rgb(246, 249, 252);
-  /* background-color: red; */
 }
 
 .home_title {
@@ -29,17 +28,16 @@
   margin-left: 40px;
 }
 
-.inputs {
+.inputs__container {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 10px;
-  padding: 10px;
+  padding: 8px;
   border: 1px solid rgb(236, 239, 241);
   background-color: rgb(255, 255, 255);
   border-radius: 4px;
   box-shadow: rgb(17 51 83 / 2%) 0px 4px 12px 0px;
-  width: 1000px;
 }
 
 .amount_frequency {
@@ -47,8 +45,7 @@
   flex-direction: column;
   justify-content: center;
   margin: 10px;
-  width: 30%;
-  max-width: 250px;
+
 }
 
 .date_inputs {
@@ -56,8 +53,6 @@
   flex-direction: column;
   justify-content: center;
   margin: 10px;
-  width: 30%;
-  max-width: 250px;
 }
 
 .calculate_section {
@@ -66,8 +61,7 @@
   align-items: center;
   justify-content: center;
   margin: 10px;
-  width: 30%;
-  max-width: 250px;
+
 }
 
 
@@ -143,4 +137,24 @@
   width: 30px;
   margin-right: 10px;
   margin-left: 10px;
+}
+
+@media (max-width: 604px) {
+  .inputs__container {
+    flex-direction: column;
+    width: 100%;
+  }
+  .toggle-button {
+    display: flex;
+  }
+
+  .navbar__component {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fullsize__links__container {
+    display: none;
+  }
+
 }

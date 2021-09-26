@@ -153,14 +153,17 @@ function Home() {
   
   return (
     <motion.div
-    initial='out' 
-    animate='in' 
-    exit='out' 
-    variants={animationTwo}
+      initial='out' 
+      animate='in' 
+      exit='out' 
+      variants={animationTwo}
     >
     <div className='home'>
 
-      <form onSubmit={handleSubmit} className='inputs'>    
+      <form 
+        onSubmit={handleSubmit} 
+        className='inputs__container'
+      >    
         
         <div className='amount_frequency'>
           <TextField 
