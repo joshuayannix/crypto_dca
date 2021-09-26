@@ -85,11 +85,28 @@ function SavedSearches() {
     })
   }
 
-  const freqMap = {
-    1: 'Daily',
-    7: 'Weekly',
-    30: 'Monthly'
+
+  let timestamp = "Sun, 04 Jul 2021 21:30:01 GMT"
+  let datetimestamp = new Date(timestamp)
+  console.log(datetimestamp.getMonth())
+  console.log(datetimestamp.getTime())
+
+
+
+  const formatDate = (str) => {
+    let daysOfWeek = { 0: 'Sunday', 1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday' }
+    let monthsObject = { 0: 'January', 1: 'February', 2: 'March', 3: 'April', 4: 'May', 5: 'June', 6: 'July', 7: 'August', 8: 'September', 9: 'October', 10: 'November', 11: 'December' };
+
+    let dateObject = new Date(str);
+    let year = dateObject.getFullYear();
+    let date = dateObject.getDate();
+    let month = monthsObject[dateObject.getMonth()];
+    let day = daysOfWeek[dateObject.getDay()];
+
+    return `${day}, ${month} ${date}, ${year}`
   }
+
+  const freqMap = { 1: 'Daily', 7: 'Weekly', 30: 'Monthly' } 
 
   return (
     <motion.div
@@ -101,52 +118,42 @@ function SavedSearches() {
     <div className='savedsearches'>
       <h3>Saved Searches</h3>
 
-      <div className='savedsearches__body'>
-
-      
         {messages.slice(0).reverse().map((message) => (
           <>
             <div className='single__search'> 
               <div className='single__search__col0'>
                 <img className ='coin_image' alt='crypto' src={message.coinimageurl}/>  
-                <div>{message.cointype}</div>
+                <div><span className='boldLabel'>{message.cointype}</span></div>
               </div>
+              
+              <div className="col1_col2__container">
+                <div className='single__search__col'>
+                  <div><span className='boldLabel'>Amount:</span> ${message.amount}</div>     
+                  <div><span className='boldLabel'>Frequency:</span> {freqMap[message.freq]}</div>
+                  <div><span className='boldLabel'>User:</span> {message.user}</div>  
+                </div>
 
-              <div className='single__search__col'>
-                <div>Amount: ${message.amount}</div>     
-                <div>Frequency: {freqMap[message.freq]}</div>
-                <div>User: {message.user}</div>  
+                <div className='single__search__col'>
+                  <div><span className='boldLabel'>Start Date:</span> {formatDate(message.start)}</div>
+                  <div><span className='boldLabel'>End Date:</span> {formatDate(message.end)}</div>
+                  <div><span className='boldLabel'>Date Saved:</span> {formatDate(message.timestamp)}</div>     
+                </div>
               </div>
+              
 
-              <div className='single__search__col'>
-                <div>Start Date: {message.start}</div>
-                <div>End Date: {message.end}</div>
-                <div>Date saved: {message.timestamp}</div>     
-              </div>
+              <div className='buttons__container'>
+                <button className='run_button' onClick={() => runSearch(message.searchquery)}>Run Search</button>  
 
-              <div className='single__search__col'>
-                
+                <button className='delete_button' onClick={() => deleteSearch(message._id)}>Delete Search</button>     
                                        
               </div>
                         
-              <button 
-                className='run_button'
-                onClick={() => runSearch(message.searchquery)}
-              >
-                Run Search
-              </button>     
-              <button 
-                className='delete_button'
-                onClick={() => deleteSearch(message._id)}
-              >
-                Delete Search
-              </button>            
+                     
             </div>
             
           </>
         ))}
 
-      </div>
 
     </div>
 
